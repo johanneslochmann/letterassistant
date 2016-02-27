@@ -16,6 +16,11 @@ public:
 
 public slots:
     void accept() override;
+    void save();
+    void reject() override;
+
+protected:
+    bool doSave();
 
 private:
     TextTemplate* m_template;

@@ -48,7 +48,7 @@ void LetterAssistant::onCreateLetter()
     f.close();
 
     auto dlg = new LetterBuilderDialog(activeWindow(), txt);
-    dlg->exec();
+    dlg->showMaximized();
 }
 
 void LetterAssistant::initActions()
