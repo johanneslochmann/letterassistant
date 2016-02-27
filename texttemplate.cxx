@@ -33,7 +33,7 @@ TextTemplate::TextTemplate(QObject *parent, const QString &txt)
 
 QString TextTemplate::replaceKeywordsWithValues()
 {
-    QString buf = m_txt;
+    QString buf = m_txtWithoutPlaceholders.join("\n");
 
     for (auto& e : elements()) {
         buf.replace(QString("!%1!").arg(e->name()), e->values().join(" "));
@@ -72,6 +72,8 @@ void TextTemplate::parseText()
                 }
 
             }
+        } else {
+            m_txtWithoutPlaceholders.append(row);
         }
     }
 }

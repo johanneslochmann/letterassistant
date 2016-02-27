@@ -50,6 +50,8 @@ protected:
 
 private:
     QString m_txt;
+    QStringList m_txtWithoutPlaceholders;
+
     QString m_dateFormat { "dd/mm/yyyy" };
     int m_columnsInRadioButtonGroups { 3 };
     int m_columnsInCheckBoxButtonGroups { 1 };
