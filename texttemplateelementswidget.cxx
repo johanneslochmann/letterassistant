@@ -5,6 +5,7 @@
 
 #include "texttemplate.hxx"
 #include "templateelement.hxx"
+#include "templateelementwidget.hxx"
 
 TextTemplateElementsWidget::TextTemplateElementsWidget(QWidget *parent, TextTemplate *textTemplate) : QWidget(parent)
   , m_tmpl(textTemplate)
@@ -17,7 +18,6 @@ TextTemplateElementsWidget::TextTemplateElementsWidget(QWidget *parent, TextTemp
 void TextTemplateElementsWidget::createWidgets()
 {
     for (const auto& e : m_tmpl->elements()) {
-        QGroupBox* b = new QGroupBox(e->name(), this);
-        layout()->addWidget(b);
+        layout()->addWidget(new TemplateElementWidget(this, e));
     }
 }

@@ -14,7 +14,8 @@ SOURCES += \
     letterbuilderdialog.cxx \
     texttemplate.cxx \
     templateelement.cxx \
-    texttemplateelementswidget.cxx
+    texttemplateelementswidget.cxx \
+    templateelementwidget.cxx
 
 HEADERS  += \
     mainwindow.hxx \
@@ -24,7 +25,8 @@ HEADERS  += \
     letterbuilderdialog.hxx \
     texttemplate.hxx \
     templateelement.hxx \
-    texttemplateelementswidget.hxx
+    texttemplateelementswidget.hxx \
+    templateelementwidget.hxx
 
 FORMS += \
     aboutprogramdialog.ui
