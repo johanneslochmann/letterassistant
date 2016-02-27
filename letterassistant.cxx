@@ -50,7 +50,7 @@ void LetterAssistant::onCreateLetter()
     auto fname = QFileDialog::getOpenFileName(activeWindow(),
                                               tr("Select Letter Template"),
                                               QDir::currentPath(),
-                                              tr("Latex Files *tex"));
+                                              tr("Text Files (*.tex *.txt)"));
 
     if (fname.isEmpty()) {
         return;

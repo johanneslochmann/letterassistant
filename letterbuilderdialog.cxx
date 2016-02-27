@@ -81,7 +81,7 @@ bool LetterBuilderDialog::doSave()
     auto fname = QFileDialog::getSaveFileName(this,
                                               tr("&Save File As..."),
                                               QDir::currentPath(),
-                                              tr("All Files *"));
+                                              tr("Text Files (*.tex *txt)"));
 
     if (fname.isEmpty()) {
         return false;
