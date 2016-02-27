@@ -6,7 +6,7 @@ LineEditTemplateElementWidget::LineEditTemplateElementWidget(QWidget *p, Templat
     : TemplateElementWidget(p, e)
 {
     setLayout(new QVBoxLayout(this));
-    m_w = new QLineEdit(e->values().join(""), this);
+    m_w = new QLineEdit(e->options().join(""), this);
     layout()->addWidget(m_w);
 
     connect(m_w, &QLineEdit::textChanged, this, &LineEditTemplateElementWidget::onValueChanged);

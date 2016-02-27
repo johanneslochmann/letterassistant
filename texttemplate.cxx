@@ -30,11 +30,26 @@ void TextTemplate::parseText()
             QStringList rowData = trimFields(row.replace("%%%", "").split(':'));
 
             if (rowData.size() != 3) {
-                QMessageBox::warning(qApp->activeWindow(), tr("Error on Template File"),
-                                     tr("Template row does not consist of 3 parts separated by \":\": %1").arg(row));
+                if (rowData.at(0) == "DateFormat") {
+                    m_dateFormat = rowData.at(1);
+                } else if (rowData.at(0) == "ColumnsInRadioButtonGroups") {
+                    m_columnsInRadioButtonGroups = rowData.at(1).toInt();
+                } else if (rowData.at(0) == "ColumnsInCheckBoxButtonGroups") {
+                    m_columnsInCheckBoxButtonGroups = rowData.at(1).toInt();
+                } else {
+                    QMessageBox::warning(qApp->activeWindow(), tr("Warning"), tr("Unknown configuration row: %1").arg(row));
+                }
             } else {
-                auto e = std::make_shared<TemplateElement>(rowData.at(0), rowData.at(1), rowData.at(2).split("|"));
-                m_elements.push_back(e);
+                auto options = rowData.at(2);
+
+                if (options.contains("|")) {
+                    auto e = std::make_shared<TemplateElement>(this, rowData.at(0), rowData.at(1), options.split("|"));
+                    m_elements.push_back(e);
+                } else {
+                    auto e = std::make_shared<TemplateElement>(this, rowData.at(0), rowData.at(1), QStringList(options));
+                    m_elements.push_back(e);
+                }
+
             }
         }
     }

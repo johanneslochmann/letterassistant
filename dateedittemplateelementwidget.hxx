@@ -2,7 +2,7 @@
 
 #include "templateelementwidget.hxx"
 
-class QCalendarWidget;
+class QDateEdit;
 
 class DateEditTemplateElementWidget : public TemplateElementWidget
 {
@@ -14,5 +14,5 @@ public slots:
     void onDateChanged(const QDate& d);
 
 private:
-    QCalendarWidget* m_w;
+    QDateEdit* m_w;
 };

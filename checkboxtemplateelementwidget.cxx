@@ -3,15 +3,27 @@
 #include <QCheckBox>
 #include <QLayout>
 
+#include "texttemplate.hxx"
+
 CheckBoxTemplateElementWidget::CheckBoxTemplateElementWidget(QWidget *p, TemplateElementSPtr e)
     : TemplateElementWidget(p, e)
 {
-    setLayout(new QVBoxLayout(this));
+    auto l = new QGridLayout(this);
+    setLayout(l);
+
+    int maxCols = e->textTemplate()->columnsInCheckBoxButtonGroups();
+    int row = 0;
+    int col = 0;
 
     for (auto& option : e->options()) {
         auto b = new QCheckBox(option, this);
         m_buttons.push_back(b);
-        layout()->addWidget(b);
+        l->addWidget(b, row, col++);
+
+        if (col >= maxCols) {
+            row++;
+            col = 0;
+        }
 
         connect(b, &QCheckBox::toggled, this, &CheckBoxTemplateElementWidget::onToggled);
     }
