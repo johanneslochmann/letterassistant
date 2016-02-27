@@ -1,5 +1,4 @@
-#ifndef ABOUTPROGRAMDIALOG_HXX
-#define ABOUTPROGRAMDIALOG_HXX
+#pragma once
 
 #include <QDialog>
 
@@ -18,5 +17,3 @@ public:
 private:
     Ui::AboutProgramDialog *ui;
 };
-
-#endif // ABOUTPROGRAMDIALOG_HXX

@@ -18,11 +18,11 @@ public:
     QAction* aboutQtAction() const { return m_aboutQtAction; }
 
 signals:
-    void createLetter();
     void aboutProgram();
 
 public slots:
     void onAboutProgram();
+    void onCreateLetter();
 
 protected:
     void initActions();
