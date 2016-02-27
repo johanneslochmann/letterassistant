@@ -1,5 +1,7 @@
 #include "letterassistant.hxx"
 
+#include <QFileDialog>
+
 #include "aboutprogramdialog.hxx"
 
 LetterAssistant::LetterAssistant(int &argc, char **argv)
@@ -21,7 +23,14 @@ void LetterAssistant::onAboutProgram()
 
 void LetterAssistant::onCreateLetter()
 {
+    auto fname = QFileDialog::getOpenFileName(activeWindow(),
+                                              tr("Select Letter Template"),
+                                              QDir::currentPath(),
+                                              tr("Latex Files *tex"));
 
+    if (fname.isEmpty()) {
+        return;
+    }
 }
 
 void LetterAssistant::initActions()
