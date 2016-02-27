@@ -1,0 +1,28 @@
+%%% DateFormat:dd/MM/yyyy
+%%% ColumnsInRadioButtonGroups:5
+%%% ColumnsInCheckBoxButtonGroups:5
+
+%%% RadioButtonGroup:OneOf:A|B|C|D
+%%% CheckBoxGroup:AnyOf:X|Y|Z
+%%% FirstName:ShortText:First Name
+%%% FamilyName:ShortText:Family Name
+%%% Place:ShortText:Default Place
+%%% Birthday:DateEdit:
+%%% LetterDate:DateEdit:
+%%% Comment:LongText:A comment
+%%% Signature:ShortText:Dr. Foo Bar
+
+                                        !Place!, !LetterDate!
+
+
+Subject: !FamilyName!, !FirstName!, born !Birthday!
+
+Any of sample: !CheckBoxGroup!
+One of sample: !RadioButtonGroup!
+
+!Comment!
+
+
+Sincerely,
+
+!Signature!

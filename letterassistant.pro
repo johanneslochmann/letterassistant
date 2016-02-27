@@ -62,4 +62,5 @@ FORMS += \
 
 DISTFILES += \
     LICENSE \
-    README.md
+    README.md \
+    data/template.txt
