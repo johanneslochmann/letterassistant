@@ -1,8 +1,11 @@
 #include "letterassistant.hxx"
 
 #include <QFileDialog>
+#include <QMessageBox>
+#include <QFile>
 
 #include "aboutprogramdialog.hxx"
+#include "letterbuilderdialog.hxx"
 
 LetterAssistant::LetterAssistant(int &argc, char **argv)
     : QApplication(argc, argv)
@@ -31,6 +34,21 @@ void LetterAssistant::onCreateLetter()
     if (fname.isEmpty()) {
         return;
     }
+
+    QFile f(fname);
+    if (!f.open(QFile::ReadOnly)) {
+        QMessageBox::critical(activeWindow(), tr("Failed to open file"),
+                              tr("<p>Could not open file <b>%1</b> for reading:</p><p>%2</p>")
+                              .arg(fname)
+                              .arg(f.errorString()));
+        return;
+    }
+
+    QString txt = f.readAll();
+    f.close();
+
+    auto dlg = new LetterBuilderDialog(activeWindow(), txt);
+    dlg->exec();
 }
 
 void LetterAssistant::initActions()

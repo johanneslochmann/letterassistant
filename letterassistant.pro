@@ -10,13 +10,15 @@ SOURCES += \
     main.cxx\
     mainwindow.cxx \
     letterassistant.cxx \
-    aboutprogramdialog.cxx
+    aboutprogramdialog.cxx \
+    letterbuilderdialog.cxx
 
 HEADERS  += \
     mainwindow.hxx \
     letterassistant.hxx \
     aboutprogramdialog.hxx \
-    config.hxx
+    config.hxx \
+    letterbuilderdialog.hxx
 
 FORMS += \
     aboutprogramdialog.ui
