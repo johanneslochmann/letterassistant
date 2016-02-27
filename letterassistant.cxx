@@ -31,7 +31,7 @@ void LetterAssistant::initActions()
     connect(m_createLetterAction, &QAction::triggered, this, &LetterAssistant::onCreateLetter);
 
     m_quitAction = new QAction(tr("&Quit"), this);
-    m_quitAction->setShortcut(QKeySequence::New);
+    m_quitAction->setShortcut(QKeySequence::Quit);
     connect(m_quitAction, &QAction::triggered, this, &LetterAssistant::quit);
 
     m_aboutProgramAction = new QAction(tr("&About this program..."), this);
