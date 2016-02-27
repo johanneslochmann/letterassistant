@@ -3,7 +3,7 @@
 #include <QLayout>
 #include <QScrollArea>
 #include <QDialogButtonBox>
-#include <QDebug>
+#include <QMessageBox>
 
 #include "texttemplate.hxx"
 #include "texttemplateelementswidget.hxx"
@@ -29,9 +29,7 @@ LetterBuilderDialog::LetterBuilderDialog(QWidget *p, const QString &templateText
 
 void LetterBuilderDialog::accept()
 {
-    for (auto& e : m_template->elements()) {
-        qDebug() << QString("%1: %2").arg(e->name()).arg(e->values().join(" und "));
-    }
+    QMessageBox::information(this, tr("Result"), m_template->replaceKeywordsWithValues());
 
     done(QDialog::Accepted);
 }

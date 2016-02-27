@@ -13,6 +13,8 @@ public:
 
     const TemplateElementSPtrVector& elements() const { return m_elements; }
 
+    QString replaceKeywordsWithValues();
+
 signals:
 
 public slots:

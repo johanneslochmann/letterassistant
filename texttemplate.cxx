@@ -10,6 +10,17 @@ TextTemplate::TextTemplate(QObject *parent, const QString &txt)
     parseText();
 }
 
+QString TextTemplate::replaceKeywordsWithValues()
+{
+    QString buf = m_txt;
+
+    for (auto& e : elements()) {
+        buf.replace(QString("!%1!").arg(e->name()), e->values().join(" "));
+    }
+
+    return buf;
+}
+
 void TextTemplate::parseText()
 {
     QStringList rows = m_txt.split("\n");
