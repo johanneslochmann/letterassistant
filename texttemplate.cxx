@@ -22,7 +22,6 @@ void TextTemplate::parseText()
                 QMessageBox::warning(qApp->activeWindow(), tr("Error on Template File"),
                                      tr("Template row does not consist of 3 parts separated by \":\": %1").arg(row));
             } else {
-
                 auto e = std::make_shared<TemplateElement>(rowData.at(0), rowData.at(1), rowData.at(2).split("|"));
                 m_elements.push_back(e);
             }

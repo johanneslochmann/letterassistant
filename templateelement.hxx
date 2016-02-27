@@ -21,7 +21,9 @@ public:
     const QStringList& options() const { return m_options; }
 
     void setValues(const QStringList& v) { m_values = v; }
+    void setSingleValue(const QString& v) { clearValues(); m_values.append(v); }
     void addValue(const QString& v) { m_values.append(v); }
+    void clearValues() { m_values.clear(); }
     const QStringList& values() const { return m_values; }
 
 private:

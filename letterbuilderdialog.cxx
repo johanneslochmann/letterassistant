@@ -3,6 +3,7 @@
 #include <QLayout>
 #include <QScrollArea>
 #include <QDialogButtonBox>
+#include <QDebug>
 
 #include "texttemplate.hxx"
 #include "texttemplateelementswidget.hxx"
@@ -24,4 +25,13 @@ LetterBuilderDialog::LetterBuilderDialog(QWidget *p, const QString &templateText
 
     layout()->addWidget(m_scrollArea);
     layout()->addWidget(m_buttons);
+}
+
+void LetterBuilderDialog::accept()
+{
+    for (auto& e : m_template->elements()) {
+        qDebug() << QString("%1: %2").arg(e->name()).arg(e->values().join(" und "));
+    }
+
+    done(QDialog::Accepted);
 }

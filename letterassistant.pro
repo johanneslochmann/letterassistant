@@ -15,7 +15,12 @@ SOURCES += \
     texttemplate.cxx \
     templateelement.cxx \
     texttemplateelementswidget.cxx \
-    templateelementwidget.cxx
+    templateelementwidget.cxx \
+    lineedittemplateelementwidget.cxx \
+    textedittemplateelementwidget.cxx \
+    radiobuttontemplateelementwidget.cxx \
+    checkboxtemplateelementwidget.cxx \
+    dateedittemplateelementwidget.cxx
 
 HEADERS  += \
     mainwindow.hxx \
@@ -26,7 +31,12 @@ HEADERS  += \
     texttemplate.hxx \
     templateelement.hxx \
     texttemplateelementswidget.hxx \
-    templateelementwidget.hxx
+    templateelementwidget.hxx \
+    lineedittemplateelementwidget.hxx \
+    textedittemplateelementwidget.hxx \
+    radiobuttontemplateelementwidget.hxx \
+    checkboxtemplateelementwidget.hxx \
+    dateedittemplateelementwidget.hxx
 
 FORMS += \
     aboutprogramdialog.ui

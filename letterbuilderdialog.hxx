@@ -14,6 +14,9 @@ class LetterBuilderDialog : public QDialog
 public:
     LetterBuilderDialog(QWidget* p, const QString& templateText);
 
+public slots:
+    void accept() override;
+
 private:
     TextTemplate* m_template;
 
