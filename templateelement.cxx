@@ -21,6 +21,10 @@
 
 #include "templateelement.hxx"
 
+class TemplateElement;
+using TemplateElementSPtr = std::shared_ptr<TemplateElement>;
+using TemplateElementSPtrVector = std::vector<TemplateElementSPtr>;
+
 TemplateElement::TemplateElement(TextTemplate* t, const QString &name, const QString &typeName, const QStringList &options)
     : m_textTemplate(t), m_name(name.trimmed()), m_typeName(typeName.trimmed()), m_options(options)
 {
@@ -28,4 +32,27 @@ TemplateElement::TemplateElement(TextTemplate* t, const QString &name, const QSt
 
 TemplateElement::~TemplateElement()
 {
+}
+
+void TemplateElement::setElementValue(const QString &name, const QString &value)
+{
+    for (auto& i : m_elementValues) {
+        if (i->name() == name) {
+            i->setValue(value);
+            return;
+        }
+    }
+
+    auto v = std::make_shared<TemplateElementValue>(name, value);
+    m_elementValues.push_back(v);
+}
+
+void TemplateElement::clearElementValues()
+{
+    m_elementValues.clear();
+}
+
+const TemplateElementValueSPtrVector TemplateElement::elementValues() const
+{
+    return m_elementValues;
 }

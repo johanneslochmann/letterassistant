@@ -54,15 +54,11 @@ void CheckBoxTemplateElementWidget::onToggled(bool isChecked)
 {
     (void) isChecked;
 
-    element()->clearValues();
-
-    QStringList checkedOptions;
+    element()->clearElementValues();
 
     for (auto& b : m_buttons) {
         if (b->isChecked()) {
-            checkedOptions.push_back(b->text());
+            element()->setElementValue(b->text());
         }
     }
-
-    element()->setValues(checkedOptions);
 }

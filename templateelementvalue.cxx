@@ -19,22 +19,39 @@
  * along with LetterAssistant.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "lineedittemplateelementwidget.hxx"
+#include <QString>
 
-#include <QLayout>
+#include "templateelementvalue.hxx"
 
-LineEditTemplateElementWidget::LineEditTemplateElementWidget(QWidget *p, TemplateElementSPtr e)
-    : TemplateElementWidget(p, e)
+TemplateElementValue::TemplateElementValue()
 {
-    setLayout(new QVBoxLayout(this));
-    m_w = new QLineEdit(e->options().join(""), this);
-    layout()->addWidget(m_w);
-
-    connect(m_w, &QLineEdit::textChanged, this, &LineEditTemplateElementWidget::onValueChanged);
 }
 
-void LineEditTemplateElementWidget::onValueChanged(const QString &v)
+TemplateElementValue::TemplateElementValue(const QString &name, const QString &value)
+    : m_name(name), m_value(value)
 {
-    element()->clearElementValues();
-    element()->setElementValue(element()->name(), v);
+}
+
+const QString TemplateElementValue::toString() const
+{
+    if (value().isEmpty()) {
+        return name();
+    }
+
+    return QString("%1 (%2)").arg(name(), value());
+}
+
+const QString &TemplateElementValue::value() const
+{
+    return m_value;
+}
+
+const QString &TemplateElementValue::name() const
+{
+    return m_name;
+}
+
+void TemplateElementValue::setValue(const QString &value)
+{
+    m_value = value;
 }

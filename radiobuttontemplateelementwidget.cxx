@@ -53,11 +53,11 @@ RadioButtonTemplateElementWidget::RadioButtonTemplateElementWidget(QWidget *p, T
 void RadioButtonTemplateElementWidget::onToggled(bool checked)
 {
     (void) checked;
-    element()->clearValues();
+    element()->clearElementValues();
 
     for (auto b : m_buttons) {
         if (b->isChecked()) {
-            element()->setSingleValue(b->text());
+            element()->setElementValue(b->text());
             return;
         }
     }

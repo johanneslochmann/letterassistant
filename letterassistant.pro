@@ -39,7 +39,11 @@ SOURCES += \
     textedittemplateelementwidget.cxx \
     radiobuttontemplateelementwidget.cxx \
     checkboxtemplateelementwidget.cxx \
-    dateedittemplateelementwidget.cxx
+    dateedittemplateelementwidget.cxx \
+    templateelementvalue.cxx \
+    texttemplateelement.cxx \
+    datetemplateelement.cxx \
+    optionstemplateelement.cxx
 
 HEADERS  += \
     mainwindow.hxx \
@@ -55,7 +59,11 @@ HEADERS  += \
     textedittemplateelementwidget.hxx \
     radiobuttontemplateelementwidget.hxx \
     checkboxtemplateelementwidget.hxx \
-    dateedittemplateelementwidget.hxx
+    dateedittemplateelementwidget.hxx \
+    templateelementvalue.hxx \
+    texttemplateelement.hxx \
+    datetemplateelement.hxx \
+    optionstemplateelement.hxx
 
 FORMS += \
     aboutprogramdialog.ui

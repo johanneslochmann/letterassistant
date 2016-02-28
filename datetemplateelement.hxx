@@ -19,22 +19,15 @@
  * along with LetterAssistant.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "lineedittemplateelementwidget.hxx"
+#pragma once
 
-#include <QLayout>
+#include "templateelement.hxx"
 
-LineEditTemplateElementWidget::LineEditTemplateElementWidget(QWidget *p, TemplateElementSPtr e)
-    : TemplateElementWidget(p, e)
+class DateTemplateElement : public TemplateElement
 {
-    setLayout(new QVBoxLayout(this));
-    m_w = new QLineEdit(e->options().join(""), this);
-    layout()->addWidget(m_w);
+public:
+    DateTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& options);
 
-    connect(m_w, &QLineEdit::textChanged, this, &LineEditTemplateElementWidget::onValueChanged);
-}
-
-void LineEditTemplateElementWidget::onValueChanged(const QString &v)
-{
-    element()->clearElementValues();
-    element()->setElementValue(element()->name(), v);
-}
+private:
+    QString implToString() const override;
+};

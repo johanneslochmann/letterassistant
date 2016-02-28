@@ -25,6 +25,10 @@
 #include <QMessageBox>
 #include <QApplication>
 
+#include "texttemplateelement.hxx"
+#include "datetemplateelement.hxx"
+#include "optionstemplateelement.hxx"
+
 TextTemplate::TextTemplate(QObject *parent, const QString &txt)
     : QObject(parent), m_txt(txt)
 {
@@ -36,7 +40,7 @@ QString TextTemplate::replaceKeywordsWithValues()
     QString buf = m_txtWithoutPlaceholders.join("\n");
 
     for (auto& e : elements()) {
-        buf.replace(QString("!%1!").arg(e->name()), e->values().join(" "));
+        buf.replace(QString("!%1!").arg(e->name()), e->toString());
     }
 
     return buf;
@@ -61,16 +65,25 @@ void TextTemplate::parseText()
                     QMessageBox::warning(qApp->activeWindow(), tr("Warning"), tr("Unknown configuration row: %1").arg(row));
                 }
             } else {
+                auto optionName = rowData.at(0);
+                auto typeName = rowData.at(1);
                 auto options = rowData.at(2);
+                auto optionList = options.split("|");
 
-                if (options.contains("|")) {
-                    auto e = std::make_shared<TemplateElement>(this, rowData.at(0), rowData.at(1), options.split("|"));
+                if (("ShortText" == typeName) || ("LongText" == typeName)) {
+                    auto e = std::make_shared<TextTemplateElement>(this, optionName, typeName, optionList);
                     m_elements.push_back(e);
-                } else {
-                    auto e = std::make_shared<TemplateElement>(this, rowData.at(0), rowData.at(1), QStringList(options));
+                } else if ("DateEdit" == typeName) {
+                    auto e = std::make_shared<DateTemplateElement>(this, optionName, typeName, optionList);
+                    m_elements.push_back(e);
+                } else if (("OneOf" == typeName) || ("AnyOf" == typeName)) {
+                    auto e = std::make_shared<OptionsTemplateElement>(this, optionName, typeName, optionList);
                     m_elements.push_back(e);
                 }
-
+                else {
+                    //auto e = std::make_shared<TemplateElement>(this, rowData.at(0), rowData.at(1), optionList);
+                    //m_elements.push_back(e);
+                }
             }
         } else {
             m_txtWithoutPlaceholders.append(row);

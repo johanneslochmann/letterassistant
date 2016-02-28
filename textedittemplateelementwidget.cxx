@@ -38,5 +38,6 @@ TextEditTemplateElementWidget::TextEditTemplateElementWidget(QWidget *p, Templat
 
 void TextEditTemplateElementWidget::onTextChanged()
 {
-    element()->setSingleValue(m_w->toPlainText());
+    element()->clearElementValues();
+    element()->setElementValue(element()->name(), m_w->toPlainText());
 }

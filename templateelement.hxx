@@ -27,6 +27,8 @@
 #include <QString>
 #include <QStringList>
 
+#include "templateelementvalue.hxx"
+
 class TemplateElement;
 class TextTemplate;
 
@@ -45,11 +47,14 @@ public:
     const QString& typeName() const { return m_typeName; }
     const QStringList& options() const { return m_options; }
 
-    void setValues(const QStringList& v) { m_values = v; }
-    void setSingleValue(const QString& v) { clearValues(); m_values.append(v); }
-    void addValue(const QString& v) { m_values.append(v); }
-    void clearValues() { m_values.clear(); }
-    const QStringList& values() const { return m_values; }
+    void setElementValue(const QString& name, const QString& value={});
+    void clearElementValues();
+    const TemplateElementValueSPtrVector elementValues() const;
+
+    QString toString() const { return implToString(); }
+
+protected:
+    virtual QString implToString() const = 0;
 
 private:
     TextTemplate* m_textTemplate;
@@ -58,5 +63,5 @@ private:
     QString m_typeName;
     QStringList m_options;
 
-    QStringList m_values;
+    TemplateElementValueSPtrVector m_elementValues;
 };
