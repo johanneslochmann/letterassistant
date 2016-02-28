@@ -32,6 +32,7 @@ DateEditTemplateElementWidget::DateEditTemplateElementWidget(QWidget *p, Templat
     setLayout(new QVBoxLayout(this));
 
     m_w = new QDateEdit(this);
+    m_w->setDisplayFormat(e->textTemplate()->dateFormat());
     layout()->addWidget(m_w);
 
     connect(m_w, &QDateEdit::dateChanged, this, &DateEditTemplateElementWidget::onDateChanged);
@@ -42,5 +43,6 @@ DateEditTemplateElementWidget::DateEditTemplateElementWidget(QWidget *p, Templat
 
 void DateEditTemplateElementWidget::onDateChanged(const QDate &d)
 {
-    element()->setSingleValue(d.toString(element()->textTemplate()->dateFormat()));
+    element()->clearElementValues();
+    element()->setElementValue(element()->name(), d.toString(element()->textTemplate()->dateFormat()));
 }
