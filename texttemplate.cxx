@@ -51,43 +51,60 @@ void TextTemplate::parseText()
     QStringList rows = m_txt.split("\n");
 
     for (auto& row : rows) {
-        if (row.startsWith("%%%")) {
-            QStringList rowData = trimFields(row.replace("%%%", "").split(':'));
+        parseRow(row);
+    }
+}
 
-            if (rowData.size() != 3) {
-                if (rowData.at(0) == "DateFormat") {
-                    m_dateFormat = rowData.at(1);
-                } else if (rowData.at(0) == "ColumnsInRadioButtonGroups") {
-                    m_columnsInRadioButtonGroups = rowData.at(1).toInt();
-                } else if (rowData.at(0) == "ColumnsInCheckBoxButtonGroups") {
-                    m_columnsInCheckBoxButtonGroups = rowData.at(1).toInt();
-                } else {
-                    QMessageBox::warning(qApp->activeWindow(), tr("Warning"), tr("Unknown configuration row: %1").arg(row));
-                }
-            } else {
-                auto optionName = rowData.at(0);
-                auto typeName = rowData.at(1);
-                auto options = rowData.at(2);
-                auto optionList = options.split("|");
+void TextTemplate::parseConfigurationRow(const QString &row, const QStringList& rowData)
+{
+    auto keyword = rowData.at(0);
 
-                if (("ShortText" == typeName) || ("LongText" == typeName)) {
-                    auto e = std::make_shared<TextTemplateElement>(this, optionName, typeName, optionList);
-                    m_elements.push_back(e);
-                } else if ("DateEdit" == typeName) {
-                    auto e = std::make_shared<DateTemplateElement>(this, optionName, typeName, optionList);
-                    m_elements.push_back(e);
-                } else if (("OneOf" == typeName) || ("AnyOf" == typeName)) {
-                    auto e = std::make_shared<OptionsTemplateElement>(this, optionName, typeName, optionList);
-                    m_elements.push_back(e);
-                }
-                else {
-                    //auto e = std::make_shared<TemplateElement>(this, rowData.at(0), rowData.at(1), optionList);
-                    //m_elements.push_back(e);
-                }
-            }
+    if ("DateFormat" == keyword) {
+        m_dateFormat = rowData.at(1);
+    } else if ("ColumnsInRadioButtonGroups" == keyword) {
+        m_columnsInRadioButtonGroups = rowData.at(1).toInt();
+    } else if ("ColumnsInCheckBoxButtonGroups" == keyword) {
+        m_columnsInCheckBoxButtonGroups = rowData.at(1).toInt();
+    } else {
+        QMessageBox::warning(qApp->activeWindow(), tr("Warning"), tr("Unknown configuration row: %1").arg(row));
+    }
+}
+
+void TextTemplate::parseOptionRow(const QString &row, const QStringList &rowData)
+{
+    auto optionName = rowData.at(0);
+    auto typeName = rowData.at(1);
+    auto options = rowData.at(2);
+    auto optionList = options.split("|");
+
+    if (("ShortText" == typeName) || ("LongText" == typeName)) {
+        auto e = std::make_shared<TextTemplateElement>(this, optionName, typeName, optionList);
+        m_elements.push_back(e);
+    } else if ("DateEdit" == typeName) {
+        auto e = std::make_shared<DateTemplateElement>(this, optionName, typeName, optionList);
+        m_elements.push_back(e);
+    } else if (("OneOf" == typeName) || ("AnyOf" == typeName)) {
+        auto e = std::make_shared<OptionsTemplateElement>(this, optionName, typeName, optionList);
+        m_elements.push_back(e);
+    } else {
+        QMessageBox::warning(qApp->activeWindow(),
+                             tr("Failed to parse row"),
+                             tr("Unknown Option Type <%1> in row:\n%2").arg(typeName).arg(row));
+    }
+}
+
+void TextTemplate::parseRow(const QString &row)
+{
+    if (row.startsWith("%%%")) {
+        QStringList rowData = trimFields(QString(row).replace("%%%", "").split(':'));
+
+        if (rowData.size() != 3) {
+            parseConfigurationRow(row, rowData);
         } else {
-            m_txtWithoutPlaceholders.append(row);
+            parseOptionRow(row, rowData);
         }
+    } else {
+        m_txtWithoutPlaceholders.append(row);
     }
 }
 

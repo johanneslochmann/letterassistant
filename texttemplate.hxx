@@ -46,6 +46,10 @@ public slots:
 protected:
     void parseText();
 
+    void parseRow(const QString& row);
+    void parseConfigurationRow(const QString &row, const QStringList& rowData);
+    void parseOptionRow(const QString& row, const QStringList& rowData);
+
     QStringList trimFields(const QStringList& data);
 
 private:
