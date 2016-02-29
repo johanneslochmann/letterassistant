@@ -28,6 +28,7 @@
 #include "texttemplateelement.hxx"
 #include "datetemplateelement.hxx"
 #include "optionstemplateelement.hxx"
+#include "optionswithtexttemplateelement.hxx"
 
 TextTemplate::TextTemplate(QObject *parent, const QString &txt)
     : QObject(parent), m_txt(txt)
@@ -65,6 +66,10 @@ void TextTemplate::parseConfigurationRow(const QString &row, const QStringList& 
         m_columnsInRadioButtonGroups = rowData.at(1).toInt();
     } else if ("ColumnsInCheckBoxButtonGroups" == keyword) {
         m_columnsInCheckBoxButtonGroups = rowData.at(1).toInt();
+    } else if ("ColumnsInRadioButtonGroupWithText" == keyword) {
+        m_columnsInRadioButtonGroupsWithText = rowData.at(1).toInt();
+    } else if ("ColumnsInCheckBoxButtonGroupWithText" == keyword) {
+        m_columnsInCheckBoxButtonGroupsWithText = rowData.at(1).toInt();
     } else {
         QMessageBox::warning(qApp->activeWindow(), tr("Warning"), tr("Unknown configuration row: %1").arg(row));
     }
@@ -85,6 +90,9 @@ void TextTemplate::parseOptionRow(const QString &row, const QStringList &rowData
         m_elements.push_back(e);
     } else if (("OneOf" == typeName) || ("AnyOf" == typeName)) {
         auto e = std::make_shared<OptionsTemplateElement>(this, optionName, typeName, optionList);
+        m_elements.push_back(e);
+    } else if (("OneOfWithText" == typeName) || ("AnyOfWithText" == typeName)) {
+        auto e = std::make_shared<OptionsWithTextTemplateElement>(this, optionName, typeName, optionList);
         m_elements.push_back(e);
     } else {
         QMessageBox::warning(qApp->activeWindow(),

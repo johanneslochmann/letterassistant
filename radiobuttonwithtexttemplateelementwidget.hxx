@@ -21,13 +21,29 @@
 
 #pragma once
 
-#include "templateelement.hxx"
+#include "templateelementwidget.hxx"
 
-class TextTemplateElement : public TemplateElement
+#include <vector>
+
+class QRadioButton;
+class QLineEdit;
+
+using RadioButtonVector = std::vector<QRadioButton*>;
+using LineEditVector = std::vector<QLineEdit*>;
+
+class RadioButtonWithTextTemplateElementWidget : public TemplateElementWidget
 {
 public:
-    TextTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& optionNames);
+    RadioButtonWithTextTemplateElementWidget(QWidget* p, TemplateElementSPtr e);
+
+public:
+    void onToggled(bool checked);
+    void onTextChanged();
 
 protected:
-    QString implToString() const override;
+    void updateData();
+
+private:
+    RadioButtonVector m_buttons;
+    LineEditVector m_edits;
 };

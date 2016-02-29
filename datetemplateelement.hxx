@@ -26,7 +26,7 @@
 class DateTemplateElement : public TemplateElement
 {
 public:
-    DateTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& options);
+    DateTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& optionNames);
 
 private:
     QString implToString() const override;

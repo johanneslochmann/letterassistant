@@ -29,7 +29,7 @@ TextEditTemplateElementWidget::TextEditTemplateElementWidget(QWidget *p, Templat
     setLayout(new QVBoxLayout(this));
     m_w = new QTextEdit(this);
     m_w->setAcceptRichText(false);
-    m_w->setPlainText(e->options().join(""));
+    m_w->setPlainText(e->optionNames().join(""));
 
     layout()->addWidget(m_w);
 

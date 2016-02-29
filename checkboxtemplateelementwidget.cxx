@@ -36,7 +36,7 @@ CheckBoxTemplateElementWidget::CheckBoxTemplateElementWidget(QWidget *p, Templat
     int row = 0;
     int col = 0;
 
-    for (auto& option : e->options()) {
+    for (auto& option : e->optionNames()) {
         auto b = new QCheckBox(option, this);
         m_buttons.push_back(b);
         l->addWidget(b, row, col++);

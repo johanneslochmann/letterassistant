@@ -19,15 +19,20 @@
  * along with LetterAssistant.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "optionswithtexttemplateelement.hxx"
 
-#include "templateelement.hxx"
-
-class TextTemplateElement : public TemplateElement
+OptionsWithTextTemplateElement::OptionsWithTextTemplateElement(TextTemplate *t, const QString &name, const QString &typeName, const QStringList &optionNames)
+    : OptionsTemplateElement(t, name, typeName, optionNames)
 {
-public:
-    TextTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& optionNames);
+}
 
-protected:
-    QString implToString() const override;
-};
+QString OptionsWithTextTemplateElement::implToString() const
+{
+    QStringList buf;
+
+    for (auto& e : elementValues()) {
+        buf.push_back(e->toString());
+    }
+
+    return buf.join(", ");
+}

@@ -21,13 +21,29 @@
 
 #pragma once
 
-#include "templateelement.hxx"
+#include <QString>
 
-class TextTemplateElement : public TemplateElement
+#include <memory>
+#include <vector>
+
+class TemplateElementOption;
+using templateElementOptionSPtr = std::shared_ptr<TemplateElementOption>;
+using TemplateElementOptionSPtrVector = std::vector<templateElementOptionSPtr>;
+
+class TemplateElementOption
 {
 public:
-    TextTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& optionNames);
+    TemplateElementOption(const QString& name, const QString& hint);
 
-protected:
-    QString implToString() const override;
+    const QString& name() const { return m_name; }
+    const QString& hint() const { return m_hint; }
+
+    void setHint(const QString& h) { m_hint = h; }
+    void setName(const QString& n) { m_name = n; }
+
+    bool hasHint() const { return (!hint().isEmpty()); }
+
+private:
+    QString m_name;
+    QString m_hint;
 };

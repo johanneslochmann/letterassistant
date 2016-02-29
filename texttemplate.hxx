@@ -59,6 +59,8 @@ private:
     QString m_dateFormat { "dd/mm/yyyy" };
     int m_columnsInRadioButtonGroups { 3 };
     int m_columnsInCheckBoxButtonGroups { 1 };
+    int m_columnsInRadioButtonGroupsWithText { 1 };
+    int m_columnsInCheckBoxButtonGroupsWithText { 1 };
 
     TemplateElementSPtrVector m_elements;
 };

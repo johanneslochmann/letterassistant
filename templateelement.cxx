@@ -21,17 +21,38 @@
 
 #include "templateelement.hxx"
 
+#include <algorithm>
+
 class TemplateElement;
 using TemplateElementSPtr = std::shared_ptr<TemplateElement>;
 using TemplateElementSPtrVector = std::vector<TemplateElementSPtr>;
 
 TemplateElement::TemplateElement(TextTemplate* t, const QString &name, const QString &typeName, const QStringList &options)
-    : m_textTemplate(t), m_name(name.trimmed()), m_typeName(typeName.trimmed()), m_options(options)
+    : m_textTemplate(t), m_name(name.trimmed()), m_typeName(typeName.trimmed())
 {
+    for (auto o : options) {
+        if (o.contains("?")) {
+            auto buf = o.split('?');
+            addElementOption(buf.at(0), buf.at(1));
+        } else {
+            addElementOption(o);
+        }
+    }
 }
 
 TemplateElement::~TemplateElement()
 {
+}
+
+QStringList TemplateElement::optionNames() const
+{
+    QStringList l;
+
+    for (auto& i : m_elementDescriptions) {
+        l.push_back(i->name());
+    }
+
+    return l;
 }
 
 void TemplateElement::setElementValue(const QString &name, const QString &value)
@@ -55,4 +76,21 @@ void TemplateElement::clearElementValues()
 const TemplateElementValueSPtrVector TemplateElement::elementValues() const
 {
     return m_elementValues;
+}
+
+void TemplateElement::addElementOption(const QString &name, const QString &hint)
+{
+    auto d = std::make_shared<TemplateElementOption>(name, hint);
+    m_elementDescriptions.push_back(d);
+}
+
+void TemplateElement::removeElementOption(const QString &name)
+{
+    auto i = std::find_if(std::begin(m_elementValues),
+                          std::end(m_elementValues),
+                          [=](TemplateElementValueSPtr e) { return (e->name() == name); });
+
+    if (std::end(m_elementValues) != i) {
+        m_elementValues.erase(i);
+    }
 }

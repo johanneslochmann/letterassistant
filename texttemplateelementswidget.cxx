@@ -32,6 +32,8 @@
 #include "radiobuttontemplateelementwidget.hxx"
 #include "checkboxtemplateelementwidget.hxx"
 #include "dateedittemplateelementwidget.hxx"
+#include "radiobuttonwithtexttemplateelementwidget.hxx"
+#include "checkboxwithtexttemplateelementwidget.hxx"
 
 TextTemplateElementsWidget::TextTemplateElementsWidget(QWidget *parent, TextTemplate *textTemplate)
     : QWidget(parent), m_tmpl(textTemplate)
@@ -54,6 +56,10 @@ void TextTemplateElementsWidget::createWidgets()
             layout()->addWidget(new CheckBoxTemplateElementWidget(this, e));
         } else if (e->typeName() == "DateEdit") {
             layout()->addWidget(new DateEditTemplateElementWidget(this, e));
+        } else if (e->typeName() == "OneOfWithText") {
+            layout()->addWidget(new RadioButtonWithTextTemplateElementWidget(this, e));
+        } else if (e->typeName() == "AnyOfWithText") {
+            layout()->addWidget(new CheckBoxWithTextTemplateElementWidget(this, e));
         }
     }
 }

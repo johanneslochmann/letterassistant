@@ -26,7 +26,7 @@
 class OptionsTemplateElement : public TemplateElement
 {
 public:
-    OptionsTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& options);
+    OptionsTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& optionNames);
 
 protected:
     QString implToString() const override;

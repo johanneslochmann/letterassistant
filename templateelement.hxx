@@ -27,6 +27,7 @@
 #include <QString>
 #include <QStringList>
 
+#include <templateelementoption.hxx>
 #include "templateelementvalue.hxx"
 
 class TemplateElement;
@@ -38,20 +39,24 @@ using TemplateElementSPtrVector = std::vector<TemplateElementSPtr>;
 class TemplateElement
 {
 public:
-    TemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& options);
+    TemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& optionNames);
     virtual ~TemplateElement();
 
     TextTemplate* textTemplate() const { return m_textTemplate; }
 
     const QString& name() const { return m_name; }
     const QString& typeName() const { return m_typeName; }
-    const QStringList& options() const { return m_options; }
+    QStringList optionNames() const;
 
     void setElementValue(const QString& name, const QString& value={});
     void clearElementValues();
     const TemplateElementValueSPtrVector elementValues() const;
 
     QString toString() const { return implToString(); }
+
+    void addElementOption(const QString& name, const QString& hint={});
+    const TemplateElementOptionSPtrVector& elementOptions() const { return m_elementDescriptions; }
+    void removeElementOption(const QString& name);
 
 protected:
     virtual QString implToString() const = 0;
@@ -61,7 +66,7 @@ private:
 
     QString m_name;
     QString m_typeName;
-    QStringList m_options;
 
+    TemplateElementOptionSPtrVector m_elementDescriptions;
     TemplateElementValueSPtrVector m_elementValues;
 };

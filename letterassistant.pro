@@ -43,7 +43,11 @@ SOURCES += \
     templateelementvalue.cxx \
     texttemplateelement.cxx \
     datetemplateelement.cxx \
-    optionstemplateelement.cxx
+    optionstemplateelement.cxx \
+    templateelementoption.cxx \
+    optionswithtexttemplateelement.cxx \
+    radiobuttonwithtexttemplateelementwidget.cxx \
+    checkboxwithtexttemplateelementwidget.cxx
 
 HEADERS  += \
     mainwindow.hxx \
@@ -63,7 +67,11 @@ HEADERS  += \
     templateelementvalue.hxx \
     texttemplateelement.hxx \
     datetemplateelement.hxx \
-    optionstemplateelement.hxx
+    optionstemplateelement.hxx \
+    templateelementoption.hxx \
+    optionswithtexttemplateelement.hxx \
+    radiobuttonwithtexttemplateelementwidget.hxx \
+    checkboxwithtexttemplateelementwidget.hxx
 
 FORMS += \
     aboutprogramdialog.ui

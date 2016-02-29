@@ -21,13 +21,30 @@
 
 #pragma once
 
-#include "templateelement.hxx"
+#include "templateelementwidget.hxx"
 
-class TextTemplateElement : public TemplateElement
+#include <vector>
+
+class QCheckBox;
+class QLineEdit;
+
+using CheckBoxVector = std::vector<QCheckBox*>;
+using LineEditVector = std::vector<QLineEdit*>;
+
+class CheckBoxWithTextTemplateElementWidget: public TemplateElementWidget
 {
+    Q_OBJECT
 public:
-    TextTemplateElement(TextTemplate* t, const QString& name, const QString& typeName, const QStringList& optionNames);
+    CheckBoxWithTextTemplateElementWidget(QWidget* p, TemplateElementSPtr e);
+
+public slots:
+    void onToggled(bool isChecked);
+    void onTextChanged(const QString& txt);
 
 protected:
-    QString implToString() const override;
+    void updateData();
+
+private:
+    CheckBoxVector m_buttons;
+    LineEditVector m_edits;
 };
