@@ -2,8 +2,10 @@
 %%% ColumnsInRadioButtonGroups:5
 %%% ColumnsInCheckBoxButtonGroups:5
 
-%%% RadioButtonGroup:OneOf:A|B|C|D
-%%% CheckBoxGroup:AnyOf:X|Y|Z
+%%% RadioButtonGroup:OneOf:A?Hint for A|B?Hint for C|C|D
+%%% CheckBoxGroup:AnyOf:X|Y|Z?Hint for Z
+%%% RadioButtonGroupWithText:OneOfWithText:A?Hint for A|B?Hint for C|C|D
+%%% CheckBoxGroupWithText:AnyOfWithText:X|Y|Z?Hint for Z
 %%% FirstName:ShortText:First Name
 %%% FamilyName:ShortText:Family Name
 %%% Place:ShortText:Default Place
@@ -17,8 +19,11 @@
 
 Subject: !FamilyName!, !FirstName!, born !Birthday!
 
-Any of sample: !CheckBoxGroup!
+Any of sample with text: !CheckBoxGroup!
+Any of sample: !CheckBoxGroupWithText!
+
 One of sample: !RadioButtonGroup!
+One of sample with text: !RadioButtonGroupWithText!
 
 !Comment!
 

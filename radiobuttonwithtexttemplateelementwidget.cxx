@@ -40,8 +40,13 @@ RadioButtonWithTextTemplateElementWidget::RadioButtonWithTextTemplateElementWidg
     int row = 0;
     int col = 0;
 
-    for (auto& option : e->optionNames()) {
-        auto b = new QRadioButton(option, this);
+    for (auto& option : e->elementOptions()) {
+        auto b = new QRadioButton(option->name(), this);
+
+        if (option->hasHint()) {
+            b->setToolTip(option->hint());
+        }
+
         auto e = new QLineEdit(this);
         e->setEnabled(false);
 

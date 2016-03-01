@@ -36,8 +36,11 @@ CheckBoxTemplateElementWidget::CheckBoxTemplateElementWidget(QWidget *p, Templat
     int row = 0;
     int col = 0;
 
-    for (auto& option : e->optionNames()) {
-        auto b = new QCheckBox(option, this);
+    for (auto& option : e->elementOptions()) {
+        auto b = new QCheckBox(option->name(), this);
+        if (option->hasHint()) {
+            b->setToolTip(option->hint());
+        }
         m_buttons.push_back(b);
         l->addWidget(b, row, col++);
 
