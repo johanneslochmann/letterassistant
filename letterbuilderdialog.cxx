@@ -69,7 +69,9 @@ void LetterBuilderDialog::save()
 
 void LetterBuilderDialog::reject()
 {
-    if (QMessageBox::Yes == QMessageBox::warning(this, tr("Abort?"), tr("Abort and loose changes?"),
+    if (QMessageBox::Yes == QMessageBox::warning(this,
+                                                 trUtf8("Abort?"),
+                                                 trUtf8("Abort and loose changes?"),
                                                  QMessageBox::Yes|QMessageBox::No)) {
         done(QDialog::Rejected);
     }
@@ -79,9 +81,9 @@ bool LetterBuilderDialog::doSave()
 {
     // dialog warns user if file already exists
     auto fname = QFileDialog::getSaveFileName(this,
-                                              tr("&Save File As..."),
+                                              trUtf8("&Save File As..."),
                                               QDir::currentPath(),
-                                              tr("Text Files (*.tex *txt)"));
+                                              trUtf8("Text Files (*.tex *txt)"));
 
     if (fname.isEmpty()) {
         return false;
@@ -89,7 +91,9 @@ bool LetterBuilderDialog::doSave()
 
     QFile f(fname);
     if (!f.open(QFile::Truncate | QFile::WriteOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, tr("Failed to save"), tr("Failed to save data to file %1: %2").arg(fname).arg(f.errorString()));
+        QMessageBox::critical(this,
+                              trUtf8("Failed to save"),
+                              trUtf8("Failed to save data to file %1: %2").arg(fname).arg(f.errorString()));
         return false;
     }
 

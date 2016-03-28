@@ -48,9 +48,9 @@ void LetterAssistant::onAboutProgram()
 void LetterAssistant::onCreateLetter()
 {
     auto fname = QFileDialog::getOpenFileName(activeWindow(),
-                                              tr("Select Letter Template"),
+                                              trUtf8("Select Letter Template"),
                                               QDir::currentPath(),
-                                              tr("Text Files (*.tex *.txt)"));
+                                              trUtf8("Text Files (*.tex *.txt)"));
 
     if (fname.isEmpty()) {
         return;
@@ -58,14 +58,14 @@ void LetterAssistant::onCreateLetter()
 
     QFile f(fname);
     if (!f.open(QFile::ReadOnly)) {
-        QMessageBox::critical(activeWindow(), tr("Failed to open file"),
-                              tr("<p>Could not open file <b>%1</b> for reading:</p><p>%2</p>")
+        QMessageBox::critical(activeWindow(), trUtf8("Failed to open file"),
+                              trUtf8("<p>Could not open file <b>%1</b> for reading:</p><p>%2</p>")
                               .arg(fname)
                               .arg(f.errorString()));
         return;
     }
 
-    QString txt = f.readAll();
+    QString txt = QString::fromUtf8(f.readAll());
     f.close();
 
     auto dlg = new LetterBuilderDialog(activeWindow(), txt);
@@ -74,17 +74,17 @@ void LetterAssistant::onCreateLetter()
 
 void LetterAssistant::initActions()
 {
-    m_createLetterAction = new QAction(tr("&New Letter..."), this);
+    m_createLetterAction = new QAction(trUtf8("&New Letter..."), this);
     m_createLetterAction->setShortcut(QKeySequence::New);
     connect(m_createLetterAction, &QAction::triggered, this, &LetterAssistant::onCreateLetter);
 
-    m_quitAction = new QAction(tr("&Quit"), this);
+    m_quitAction = new QAction(trUtf8("&Quit"), this);
     m_quitAction->setShortcut(QKeySequence::Quit);
     connect(m_quitAction, &QAction::triggered, this, &LetterAssistant::quit);
 
-    m_aboutProgramAction = new QAction(tr("&About this program..."), this);
+    m_aboutProgramAction = new QAction(trUtf8("&About this program..."), this);
     connect(m_aboutProgramAction, &QAction::triggered, this, &LetterAssistant::onAboutProgram);
 
-    m_aboutQtAction = new QAction(tr("&About Qt..."), this);
+    m_aboutQtAction = new QAction(trUtf8("&About Qt..."), this);
     connect(m_aboutQtAction, &QAction::triggered, this, &LetterAssistant::aboutQt);
 }

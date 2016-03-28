@@ -56,7 +56,7 @@ private:
     QString m_txt;
     QStringList m_txtWithoutPlaceholders;
 
-    QString m_dateFormat { "dd/mm/yyyy" };
+    QString m_dateFormat { QString::fromUtf8("dd/mm/yyyy") };
     int m_columnsInRadioButtonGroups { 3 };
     int m_columnsInCheckBoxButtonGroups { 1 };
     int m_columnsInRadioButtonGroupsWithText { 1 };

@@ -41,7 +41,7 @@ QString TextTemplate::replaceKeywordsWithValues()
     QString buf = m_txtWithoutPlaceholders.join("\n");
 
     for (auto& e : elements()) {
-        buf.replace(QString("!%1!").arg(e->name()), e->toString());
+        buf.replace(QString::fromUtf8("!%1!").arg(e->name()), e->toString());
     }
 
     return buf;
@@ -60,18 +60,20 @@ void TextTemplate::parseConfigurationRow(const QString &row, const QStringList& 
 {
     auto keyword = rowData.at(0);
 
-    if ("DateFormat" == keyword) {
+    if (QString::fromUtf8("DateFormat") == keyword) {
         m_dateFormat = rowData.at(1);
-    } else if ("ColumnsInRadioButtonGroups" == keyword) {
+    } else if (QString::fromUtf8("ColumnsInRadioButtonGroups") == keyword) {
         m_columnsInRadioButtonGroups = rowData.at(1).toInt();
-    } else if ("ColumnsInCheckBoxButtonGroups" == keyword) {
+    } else if (QString::fromUtf8("ColumnsInCheckBoxButtonGroups") == keyword) {
         m_columnsInCheckBoxButtonGroups = rowData.at(1).toInt();
-    } else if ("ColumnsInRadioButtonGroupWithText" == keyword) {
+    } else if (QString::fromUtf8("ColumnsInRadioButtonGroupWithText") == keyword) {
         m_columnsInRadioButtonGroupsWithText = rowData.at(1).toInt();
-    } else if ("ColumnsInCheckBoxButtonGroupWithText" == keyword) {
+    } else if (QString::fromUtf8("ColumnsInCheckBoxButtonGroupWithText") == keyword) {
         m_columnsInCheckBoxButtonGroupsWithText = rowData.at(1).toInt();
     } else {
-        QMessageBox::warning(qApp->activeWindow(), tr("Warning"), tr("Unknown configuration row: %1").arg(row));
+        QMessageBox::warning(qApp->activeWindow(),
+                             trUtf8("Warning"),
+                             trUtf8("Unknown configuration row: %1").arg(row));
     }
 }
 
@@ -82,29 +84,32 @@ void TextTemplate::parseOptionRow(const QString &row, const QStringList &rowData
     auto options = rowData.at(2);
     auto optionList = options.split("|");
 
-    if (("ShortText" == typeName) || ("LongText" == typeName)) {
+    if ((QString::fromUtf8("ShortText") == typeName)
+            || (QString::fromUtf8("LongText") == typeName)) {
         auto e = std::make_shared<TextTemplateElement>(this, optionName, typeName, optionList);
         m_elements.push_back(e);
-    } else if ("DateEdit" == typeName) {
+    } else if (QString::fromUtf8("DateEdit") == typeName) {
         auto e = std::make_shared<DateTemplateElement>(this, optionName, typeName, optionList);
         m_elements.push_back(e);
-    } else if (("OneOf" == typeName) || ("AnyOf" == typeName)) {
+    } else if ((QString::fromUtf8("OneOf") == typeName)
+               || (QString::fromUtf8("AnyOf") == typeName)) {
         auto e = std::make_shared<OptionsTemplateElement>(this, optionName, typeName, optionList);
         m_elements.push_back(e);
-    } else if (("OneOfWithText" == typeName) || ("AnyOfWithText" == typeName)) {
+    } else if ((QString::fromUtf8("OneOfWithText") == typeName)
+               || (QString::fromUtf8("AnyOfWithText") == typeName)) {
         auto e = std::make_shared<OptionsWithTextTemplateElement>(this, optionName, typeName, optionList);
         m_elements.push_back(e);
     } else {
         QMessageBox::warning(qApp->activeWindow(),
-                             tr("Failed to parse row"),
-                             tr("Unknown Option Type <%1> in row:\n%2").arg(typeName).arg(row));
+                             trUtf8("Failed to parse row"),
+                             trUtf8("Unknown Option Type <%1> in row:\n%2").arg(typeName).arg(row));
     }
 }
 
 void TextTemplate::parseRow(const QString &row)
 {
-    if (row.startsWith("%%%")) {
-        QStringList rowData = trimFields(QString(row).replace("%%%", "").split(':'));
+    if (row.startsWith(QString::fromUtf8("%%%"))) {
+        QStringList rowData = trimFields(QString(row).replace(QString::fromUtf8("%%%"), "").split(':'));
 
         if (rowData.size() != 3) {
             parseConfigurationRow(row, rowData);

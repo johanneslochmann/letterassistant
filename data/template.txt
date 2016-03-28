@@ -17,6 +17,8 @@
                                         !Place!, !LetterDate!
 
 
+ÄÖÜäöüß
+
 Subject: !FamilyName!, !FirstName!, born !Birthday!
 
 Any of sample with text: !CheckBoxGroup!

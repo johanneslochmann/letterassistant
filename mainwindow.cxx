@@ -39,12 +39,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::createMenuBar()
 {
-    m_file = new QMenu(tr("&File"), menuBar());
+    m_file = new QMenu(trUtf8("&File"), menuBar());
     m_file->addAction(LetterAssistant::get()->createLetterAction());
     m_file->addSeparator();
     m_file->addAction(LetterAssistant::get()->quitAction());
 
-    m_help = new QMenu(tr("&Help"), menuBar());
+    m_help = new QMenu(trUtf8("&Help"), menuBar());
     m_help->addAction(LetterAssistant::get()->aboutProgramAction());
     m_help->addSeparator();
     m_help->addAction(LetterAssistant::get()->aboutQtAction());

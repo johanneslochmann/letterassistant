@@ -38,7 +38,7 @@ const QString TemplateElementValue::toString() const
         return name();
     }
 
-    return QString("%1 (%2)").arg(name(), value());
+    return QString::fromUtf8("%1 (%2)").arg(name(), value());
 }
 
 const QString &TemplateElementValue::value() const

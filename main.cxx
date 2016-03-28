@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationVersion(APPLICATION_VERSION);
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
-    QApplication::setApplicationDisplayName(QObject::tr("%1 V. %2")
+    QApplication::setApplicationDisplayName(QObject::trUtf8("%1 V. %2")
                                             .arg(QCoreApplication::applicationName())
                                             .arg(QCoreApplication::applicationVersion()));
     LetterAssistant a(argc, argv);

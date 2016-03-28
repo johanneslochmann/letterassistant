@@ -46,19 +46,19 @@ TextTemplateElementsWidget::TextTemplateElementsWidget(QWidget *parent, TextTemp
 void TextTemplateElementsWidget::createWidgets()
 {
     for (const auto& e : m_tmpl->elements()) {
-        if (e->typeName() == "ShortText") {
+        if (e->typeName() == QString::fromUtf8("ShortText")) {
             layout()->addWidget(new LineEditTemplateElementWidget(this, e));
-        } else if (e->typeName() == "LongText") {
+        } else if (e->typeName() == QString::fromUtf8("LongText")) {
             layout()->addWidget(new TextEditTemplateElementWidget(this, e));
-        } else if (e->typeName() == "OneOf") {
+        } else if (e->typeName() == QString::fromUtf8("OneOf")) {
             layout()->addWidget(new RadioButtonTemplateElementWidget(this, e));
-        } else if (e->typeName() == "AnyOf") {
+        } else if (e->typeName() == QString::fromUtf8("AnyOf")) {
             layout()->addWidget(new CheckBoxTemplateElementWidget(this, e));
-        } else if (e->typeName() == "DateEdit") {
+        } else if (e->typeName() == QString::fromUtf8("DateEdit")) {
             layout()->addWidget(new DateEditTemplateElementWidget(this, e));
-        } else if (e->typeName() == "OneOfWithText") {
+        } else if (e->typeName() == QString::fromUtf8("OneOfWithText")) {
             layout()->addWidget(new RadioButtonWithTextTemplateElementWidget(this, e));
-        } else if (e->typeName() == "AnyOfWithText") {
+        } else if (e->typeName() == QString::fromUtf8("AnyOfWithText")) {
             layout()->addWidget(new CheckBoxWithTextTemplateElementWidget(this, e));
         }
     }

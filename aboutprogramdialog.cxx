@@ -34,9 +34,9 @@ AboutProgramDialog::AboutProgramDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->m_lbl->setText(tr("<p>This is %1.</p>"
-                          "<p>Visit <a href=\"%2\">%2</a> for more information</p>"
-                          "<p>The author Johannes Lochmann can be reached via the above website or by sending an email to <a href=\"mailto:%3\">%3</a>.</p>")
+    ui->m_lbl->setText(trUtf8("<p>This is %1.</p>"
+                              "<p>Visit <a href=\"%2\">%2</a> for more information</p>"
+                              "<p>The author Johannes Lochmann can be reached via the above website or by sending an email to <a href=\"mailto:%3\">%3</a>.</p>")
                        .arg(QApplication::applicationDisplayName())
                        .arg(APPLICATION_URL)
                        .arg(AUTHOR_EMAIL));
