@@ -50,7 +50,8 @@ SOURCES += \
     checkboxwithtexttemplateelementwidget.cxx \
     xmltemplate.cxx \
     workbench.cxx \
-    xmltemplateeditor.cxx
+    xmltemplateeditor.cxx \
+    xmleditor.cxx
 
 HEADERS  += \
     mainwindow.hxx \
@@ -77,7 +78,8 @@ HEADERS  += \
     checkboxwithtexttemplateelementwidget.hxx \
     xmltemplate.hxx \
     workbench.hxx \
-    xmltemplateeditor.hxx
+    xmltemplateeditor.hxx \
+    xmleditor.hxx
 
 FORMS += \
     aboutprogramdialog.ui

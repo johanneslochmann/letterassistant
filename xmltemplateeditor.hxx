@@ -3,6 +3,7 @@
 #include <QMdiSubWindow>
 
 class XMLTemplate;
+class XMLEditor;
 
 class XMLTemplateEditor : public QMdiSubWindow
 {
@@ -18,4 +19,5 @@ public slots:
 
 private:
     XMLTemplate* m_t { nullptr };
+    XMLEditor* m_edit;
 };
