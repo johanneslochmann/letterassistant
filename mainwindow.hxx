@@ -40,6 +40,7 @@ protected:
     void createFileMenu();
     void createLetterMenu();
     void createTemplatesMenu();
+    void createMdiMenu();
     void createHelpMenu();
 
 private:

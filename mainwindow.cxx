@@ -30,9 +30,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    /*m_wb = new Workbench(this);
+    m_wb = new Workbench(this);
     setCentralWidget(m_wb);
-*/
+
     createMenuBar();
 }
 
@@ -74,6 +74,24 @@ void MainWindow::createTemplatesMenu()
     menuBar()->addMenu(m_templates);
 }
 
+void MainWindow::createMdiMenu()
+{
+    m_mdi = new QMenu(trUtf8("&Windows"), menuBar());
+
+    m_mdi->addAction(LetterAssistant::get()->activateNextSubWindowAction());
+    m_mdi->addAction(LetterAssistant::get()->activatePreviousSubWindowAction());
+    m_mdi->addSeparator();
+    m_mdi->addAction(LetterAssistant::get()->tileSubWindowsAction());
+    m_mdi->addSeparator();
+    m_mdi->addAction(LetterAssistant::get()->cascadeSubWindowsAction());
+    m_mdi->addSeparator();
+    m_mdi->addAction(LetterAssistant::get()->closeActiveSubWindowAction());
+    m_mdi->addAction(LetterAssistant::get()->closeAllSubWindowsAction());
+
+    menuBar()->addSeparator();
+    menuBar()->addMenu(m_mdi);
+}
+
 void MainWindow::createHelpMenu()
 {
     m_help = new QMenu(trUtf8("&Help"), menuBar());
@@ -91,5 +109,6 @@ void MainWindow::createMenuBar()
     createFileMenu();
     createLetterMenu();
     createTemplatesMenu();
+    createMdiMenu();
     createHelpMenu();
 }

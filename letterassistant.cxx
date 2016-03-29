@@ -107,7 +107,7 @@ void LetterAssistant::initMdiActions()
     m_closeAllSubWindowsAction = new QAction(trUtf8("Close All Windows"), this);
     connect(m_closeAllSubWindowsAction, &QAction::triggered, this, &LetterAssistant::closeAllSubWindows);
 
-    m_tileSubWindowsAction = new QAction(trUtf8("tile Windows"), this);
+    m_tileSubWindowsAction = new QAction(trUtf8("Tile Windows"), this);
     connect(m_tileSubWindowsAction, &QAction::triggered, this, &LetterAssistant::tileSubWindows);
 }
 
