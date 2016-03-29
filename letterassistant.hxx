@@ -33,13 +33,39 @@ public:
 
     static LetterAssistant* get();
 
+    QAction* createTemplateAction() const { return m_createTemplateAction; }
+    QAction* openTemplateAction() const { return m_openTemplateAction; }
+    QAction* closeTemplateAction() const { return m_closeTemplateAction; }
+    QAction* saveTemplateAction() const { return m_saveTemplateAction; }
+    QAction* saveTemplateAsAction() const { return m_saveTemplateAsAction; }
+
     QAction* createLetterAction() const { return m_createLetterAction; }
     QAction* quitAction() const { return m_quitAction; }
     QAction* aboutProgramAction() const { return m_aboutProgramAction; }
     QAction* aboutQtAction() const { return m_aboutQtAction; }
 
+    QAction* activateNextSubWindowAction() { return m_activateNextSubWindowAction; }
+    QAction* activatePreviousSubWindowAction() { return m_activatePreviousSubWindowAction; }
+    QAction* cascadeSubWindowsAction() { return m_cascadeSubWindowsAction; }
+    QAction* closeActiveSubWindowAction() { return m_closeActiveSubWindowAction; }
+    QAction* closeAllSubWindowsAction() { return m_closeAllSubWindowsAction; }
+    QAction* tileSubWindowsAction() { return m_tileSubWindowsAction; }
+
 signals:
     void aboutProgram();
+
+    void createTemplate();
+    void openTemplate();
+    void closeTemplate();
+    void saveTemplate();
+    void saveTemplateAs();
+
+    void activateNextSubWindow();
+    void activatePreviousSubWindow();
+    void cascadeSubWindows();
+    void closeActiveSubWindow();
+    void closeAllSubWindows();
+    void tileSubWindows();
 
 public slots:
     void onAboutProgram();
@@ -48,7 +74,26 @@ public slots:
 protected:
     void initActions();
 
+    void initTemplateActions();
+    void initMdiActions();
+    void initLetterActions();
+    void initFileActions();
+    void initHelpActions();
+
 private:
+    QAction* m_createTemplateAction;
+    QAction* m_openTemplateAction;
+    QAction* m_closeTemplateAction;
+    QAction* m_saveTemplateAction;
+    QAction* m_saveTemplateAsAction;
+
+    QAction* m_activateNextSubWindowAction;
+    QAction* m_activatePreviousSubWindowAction;
+    QAction* m_cascadeSubWindowsAction;
+    QAction* m_closeActiveSubWindowAction;
+    QAction* m_closeAllSubWindowsAction;
+    QAction* m_tileSubWindowsAction;
+
     QAction* m_createLetterAction;
     QAction* m_quitAction;
     QAction* m_aboutProgramAction;

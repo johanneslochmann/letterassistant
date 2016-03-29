@@ -72,19 +72,73 @@ void LetterAssistant::onCreateLetter()
     dlg->showMaximized();
 }
 
-void LetterAssistant::initActions()
+void LetterAssistant::initTemplateActions()
+{
+    m_createTemplateAction = new QAction(trUtf8("New Template..."), this);
+    connect(m_createTemplateAction, &QAction::triggered, this, &LetterAssistant::createTemplate);
+
+    m_closeTemplateAction = new QAction(trUtf8("Close Template"), this);
+    connect(m_closeTemplateAction, &QAction::triggered, this, &LetterAssistant::closeTemplate);
+
+    m_openTemplateAction = new QAction(trUtf8("Open Template..."), this);
+    connect(m_openTemplateAction, &QAction::triggered, this, &LetterAssistant::closeTemplate);
+
+    m_saveTemplateAction = new QAction(trUtf8("Save Template"), this);
+    connect(m_saveTemplateAction, &QAction::triggered, this, &LetterAssistant::saveTemplate);
+
+    m_saveTemplateAsAction = new QAction(trUtf8("Save Template As..."), this);
+    connect(m_saveTemplateAsAction, &QAction::triggered, this, &LetterAssistant::saveTemplateAs);
+}
+
+void LetterAssistant::initMdiActions()
+{
+    m_activateNextSubWindowAction = new QAction(trUtf8("Activate Next Window"), this);
+    connect(m_activateNextSubWindowAction, &QAction::triggered, this, &LetterAssistant::activateNextSubWindow);
+
+    m_activatePreviousSubWindowAction = new QAction(trUtf8("Activate Previous Window"), this);
+    connect(m_activatePreviousSubWindowAction, &QAction::triggered, this, &LetterAssistant::activatePreviousSubWindow);
+
+    m_cascadeSubWindowsAction = new QAction(trUtf8("Cascade Windows"), this);
+    connect(m_cascadeSubWindowsAction, &QAction::triggered, this, &LetterAssistant::cascadeSubWindows);
+
+    m_closeActiveSubWindowAction = new QAction(trUtf8("Close Active Window"), this);
+    connect(m_closeActiveSubWindowAction, &QAction::triggered, this, &LetterAssistant::closeActiveSubWindow);
+
+    m_closeAllSubWindowsAction = new QAction(trUtf8("Close All Windows"), this);
+    connect(m_closeAllSubWindowsAction, &QAction::triggered, this, &LetterAssistant::closeAllSubWindows);
+
+    m_tileSubWindowsAction = new QAction(trUtf8("tile Windows"), this);
+    connect(m_tileSubWindowsAction, &QAction::triggered, this, &LetterAssistant::tileSubWindows);
+}
+
+void LetterAssistant::initLetterActions()
 {
     m_createLetterAction = new QAction(trUtf8("&New Letter..."), this);
     m_createLetterAction->setShortcut(QKeySequence::New);
     connect(m_createLetterAction, &QAction::triggered, this, &LetterAssistant::onCreateLetter);
+}
 
+void LetterAssistant::initFileActions()
+{
     m_quitAction = new QAction(trUtf8("&Quit"), this);
     m_quitAction->setShortcut(QKeySequence::Quit);
     connect(m_quitAction, &QAction::triggered, this, &LetterAssistant::quit);
+}
 
+void LetterAssistant::initHelpActions()
+{
     m_aboutProgramAction = new QAction(trUtf8("&About this program..."), this);
     connect(m_aboutProgramAction, &QAction::triggered, this, &LetterAssistant::onAboutProgram);
 
     m_aboutQtAction = new QAction(trUtf8("&About Qt..."), this);
     connect(m_aboutQtAction, &QAction::triggered, this, &LetterAssistant::aboutQt);
+}
+
+void LetterAssistant::initActions()
+{
+    initTemplateActions();
+    initMdiActions();
+    initLetterActions();
+    initFileActions();
+    initHelpActions();
 }

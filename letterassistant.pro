@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with LetterAssistant.  If not, see <http://www.gnu.org/licenses/>.
 
-QT += core gui widgets
+QT += core gui widgets xml
 
 QMAKE_CXX = clang++
 CONFIG += c++11
@@ -47,7 +47,9 @@ SOURCES += \
     templateelementoption.cxx \
     optionswithtexttemplateelement.cxx \
     radiobuttonwithtexttemplateelementwidget.cxx \
-    checkboxwithtexttemplateelementwidget.cxx
+    checkboxwithtexttemplateelementwidget.cxx \
+    xmltemplate.cxx \
+    workbench.cxx
 
 HEADERS  += \
     mainwindow.hxx \
@@ -71,7 +73,9 @@ HEADERS  += \
     templateelementoption.hxx \
     optionswithtexttemplateelement.hxx \
     radiobuttonwithtexttemplateelementwidget.hxx \
-    checkboxwithtexttemplateelementwidget.hxx
+    checkboxwithtexttemplateelementwidget.hxx \
+    xmltemplate.hxx \
+    workbench.hxx
 
 FORMS += \
     aboutprogramdialog.ui

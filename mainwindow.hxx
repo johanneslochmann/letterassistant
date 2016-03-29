@@ -24,6 +24,7 @@
 #include <QMainWindow>
 
 class QMenu;
+class Workbench;
 
 class MainWindow : public QMainWindow
 {
@@ -33,9 +34,21 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
+protected:
     void createMenuBar();
 
+    void createFileMenu();
+    void createLetterMenu();
+    void createTemplatesMenu();
+    void createHelpMenu();
+
+private:
+
     QMenu* m_file;
+    QMenu* m_letter;
+    QMenu* m_templates;
+    QMenu* m_mdi;
     QMenu* m_help;
+
+    Workbench* m_wb;
 };
