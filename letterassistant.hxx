@@ -25,11 +25,14 @@
 
 #include <QAction>
 
+class XMLTemplate;
+
 class LetterAssistant : public QApplication
 {
     Q_OBJECT
 public:
     LetterAssistant(int& argc, char** argv);
+    virtual ~LetterAssistant();
 
     static LetterAssistant* get();
 
@@ -67,9 +70,13 @@ signals:
     void closeAllSubWindows();
     void tileSubWindows();
 
+    void templateLoaded(XMLTemplate* t);
+
 public slots:
     void onAboutProgram();
     void onCreateLetter();
+
+    void newXmlTemplate();
 
 protected:
     void initActions();
@@ -98,4 +105,6 @@ private:
     QAction* m_quitAction;
     QAction* m_aboutProgramAction;
     QAction* m_aboutQtAction;
+
+    QList<XMLTemplate*> m_openTemplates;
 };

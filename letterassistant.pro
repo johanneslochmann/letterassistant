@@ -49,7 +49,8 @@ SOURCES += \
     radiobuttonwithtexttemplateelementwidget.cxx \
     checkboxwithtexttemplateelementwidget.cxx \
     xmltemplate.cxx \
-    workbench.cxx
+    workbench.cxx \
+    xmltemplateeditor.cxx
 
 HEADERS  += \
     mainwindow.hxx \
@@ -75,7 +76,8 @@ HEADERS  += \
     radiobuttonwithtexttemplateelementwidget.hxx \
     checkboxwithtexttemplateelementwidget.hxx \
     xmltemplate.hxx \
-    workbench.hxx
+    workbench.hxx \
+    xmltemplateeditor.hxx
 
 FORMS += \
     aboutprogramdialog.ui

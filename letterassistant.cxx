@@ -27,11 +27,21 @@
 
 #include "aboutprogramdialog.hxx"
 #include "letterbuilderdialog.hxx"
+#include <xmltemplate.hxx>
 
 LetterAssistant::LetterAssistant(int &argc, char **argv)
     : QApplication(argc, argv)
 {
     initActions();
+}
+
+LetterAssistant::~LetterAssistant()
+{
+    for (auto& t : m_openTemplates) {
+        delete t;
+    }
+
+    m_openTemplates.clear();
 }
 
 LetterAssistant *LetterAssistant::get()
@@ -72,10 +82,36 @@ void LetterAssistant::onCreateLetter()
     dlg->showMaximized();
 }
 
+void LetterAssistant::newXmlTemplate()
+{
+    auto fname = QFileDialog::getSaveFileName(activeWindow(),
+                                              trUtf8("Create New Template"),
+                                              QDir::currentPath(),
+                                              trUtf8("XML Files, *xml"));
+
+    if (fname.isEmpty()) {
+        return;
+    }
+
+    XMLTemplate* t = XMLTemplate::createNewTemplate(fname);
+    Q_CHECK_PTR(t);
+
+    if (t->hasError()) {
+        QMessageBox::critical(activeWindow(),
+                              trUtf8("Failed to create template file"),
+                              trUtf8("Failed to create template file:\n%1").arg(t->lastError()));
+        delete t;
+        return;
+    }
+
+    m_openTemplates.append(t);
+    emit templateLoaded(t);
+}
+
 void LetterAssistant::initTemplateActions()
 {
     m_createTemplateAction = new QAction(trUtf8("New Template..."), this);
-    connect(m_createTemplateAction, &QAction::triggered, this, &LetterAssistant::createTemplate);
+    connect(m_createTemplateAction, &QAction::triggered, this, &LetterAssistant::newXmlTemplate);
 
     m_closeTemplateAction = new QAction(trUtf8("Close Template"), this);
     connect(m_closeTemplateAction, &QAction::triggered, this, &LetterAssistant::closeTemplate);

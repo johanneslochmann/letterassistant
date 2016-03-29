@@ -16,8 +16,8 @@ public:
     QString lastError() const;
     bool hasError() const;
 
-    static XMLTemplate createNewTemplate(const QString& fname);
-    static XMLTemplate openTemplate(const QString& fname);
+    static XMLTemplate *createNewTemplate(const QString& fname);
+    static XMLTemplate *openTemplate(const QString& fname);
 
 protected:
     XMLTemplate();

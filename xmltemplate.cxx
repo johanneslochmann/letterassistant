@@ -35,7 +35,7 @@ bool XMLTemplate::saveToFile(const QString &fname)
         m_fileName = fname;
     }
 
-    QFile f;
+    QFile f(m_fileName);
 
     if (!f.open(QFile::Truncate | QFile::WriteOnly)) {
         m_lastError = f.errorString();
@@ -61,21 +61,21 @@ bool XMLTemplate::hasError() const
     return (!lastError().isEmpty());
 }
 
-XMLTemplate XMLTemplate::createNewTemplate(const QString &fname)
+XMLTemplate* XMLTemplate::createNewTemplate(const QString &fname)
 {
-    XMLTemplate t;
+    auto t = new XMLTemplate();
 
-    t.initDom();
-    t.saveToFile(fname);
+    t->initDom();
+    t->saveToFile(fname);
 
     return t;
 }
 
-XMLTemplate XMLTemplate::openTemplate(const QString &fname)
+XMLTemplate* XMLTemplate::openTemplate(const QString &fname)
 {
-    XMLTemplate t;
+    auto t = new XMLTemplate();
 
-    t.loadFromFile(fname);
+    t->loadFromFile(fname);
 
     return t;
 }

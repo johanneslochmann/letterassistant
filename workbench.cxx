@@ -1,6 +1,8 @@
 #include "workbench.hxx"
 
 #include <letterassistant.hxx>
+#include <xmltemplate.hxx>
+#include <xmltemplateeditor.hxx>
 
 Workbench::Workbench(QWidget *p)
     : QMdiArea(p)
@@ -10,6 +12,15 @@ Workbench::Workbench(QWidget *p)
 
 Workbench::~Workbench()
 {
+}
+
+void Workbench::onXMLTemplateLoaded(XMLTemplate *t)
+{
+    Q_CHECK_PTR(t);
+    auto w = new XMLTemplateEditor(this);
+    w->setTemplate(t);
+    addSubWindow(w);
+    w->showMaximized();
 }
 
 void Workbench::connectToApplicationSignals()
@@ -22,4 +33,6 @@ void Workbench::connectToApplicationSignals()
     connect(app, &LetterAssistant::closeActiveSubWindow, this, &Workbench::closeActiveSubWindow);
     connect(app, &LetterAssistant::closeAllSubWindows, this, &Workbench::closeAllSubWindows);
     connect(app, &LetterAssistant::tileSubWindows, this, &Workbench::tileSubWindows);
+
+    connect(app, &LetterAssistant::templateLoaded, this, &Workbench::onXMLTemplateLoaded);
 }
