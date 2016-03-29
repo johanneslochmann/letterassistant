@@ -27,10 +27,14 @@ protected:
 
     QDomNode& createConfigNode();
     QDomNode& createTemplateNode();
+    QDomNode& createLetterNode();
 
     QDomNode createShortTextField(const QString& name, const QString& defaultValue);
     QDomNode createLongTextField(const QString& name, const QString& defaultValue);
     QDomNode createDateEditField(const QString& name, const QString& defaultValue);
+    QDomNode createOneOfField(const QString& name, const QStringList& items);
+    QDomNode createAnyOfField(const QString& name, const QStringList& items);
+    QDomNode createItem(const QString& name);
 
 private:
     QString m_fileName;

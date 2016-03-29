@@ -94,10 +94,10 @@ void XMLTemplate::initDom()
 
     m_rootNode = m_domM.createElement(m_rootNodeName);
 
-    m_letterNode = m_domM.createElement(m_letterNodeName);
     m_templateNode.appendChild(createConfigNode());
     m_rootNode.appendChild(createTemplateNode());
-    m_rootNode.appendChild(m_letterNode);
+    m_rootNode.appendChild(createLetterNode());
+
     m_domM.appendChild(m_rootNode);
 }
 
@@ -127,13 +127,43 @@ QDomNode &XMLTemplate::createTemplateNode()
 
     m_fields = m_domM.createElement(m_fieldsNodeName);
 
+    m_fields.appendChild(createShortTextField(QString::fromUtf8("Place"), QObject::trUtf8("New York")));
+    m_fields.appendChild(createDateEditField(QString::fromUtf8("Date"), QDate::currentDate().toString(m_defaultDateFormat.toLatin1())));
+    m_fields.appendChild(createOneOfField(QString::fromUtf8("Title"), QStringList( { QObject::trUtf8("Mr."),
+                                                                                     QObject::trUtf8("Ms."),
+                                                                                     QObject::trUtf8("Dr."),
+                                                                                     QObject::trUtf8("Prof.")} )));
     m_fields.appendChild(createShortTextField(QString::fromUtf8("FirstName"), QObject::trUtf8("First Name")));
     m_fields.appendChild(createShortTextField(QString::fromUtf8("FamilyName"), QObject::trUtf8("Family Name")));
-    m_fields.appendChild(createDateEditField(QString::fromUtf8("Date"), QDate::currentDate().toString(m_defaultDateFormat.toLatin1())));
+    m_fields.appendChild(createShortTextField(QString::fromUtf8("Signature"), QObject::trUtf8("Dr. Foo Bar")));
+
+    m_fields.appendChild(createOneOfField(QString::fromUtf8("ChooseOne"), QStringList( { QObject::trUtf8("first"),
+                                                                                         QObject::trUtf8("second"),
+                                                                                         QObject::trUtf8("third"),
+                                                                                         QObject::trUtf8("fourth")} )));
+    m_fields.appendChild(createAnyOfField(QString::fromUtf8("ChooseAny"), QStringList( { QObject::trUtf8("first"),
+                                                                                         QObject::trUtf8("second"),
+                                                                                         QObject::trUtf8("<third"),
+                                                                                         QObject::trUtf8("fourth")} )));
     m_fields.appendChild(createLongTextField(QString::fromUtf8("Comment"), QObject::trUtf8("")));
 
     m_templateNode.appendChild(m_fields);
     return m_templateNode;
+}
+
+QDomNode &XMLTemplate::createLetterNode()
+{
+    m_letterNode = m_domM.createElement(m_letterNodeName);
+
+    m_letterNode.appendChild(m_domM.createTextNode(QObject::trUtf8("\n"
+                                                                   "!Place!, !Date!\n\n"
+                                                                   "Subject: !FirstName! !LastName!\n\n"
+                                                                   "Dear !Title! !FirstName! !LastName!\n\n"
+                                                                   "Blindtext\n\n"
+                                                                   "Regards,\n\n"
+                                                                   "!Signature!")));
+
+    return m_letterNode;
 }
 
 QDomNode XMLTemplate::createShortTextField(const QString &name, const QString &defaultValue)
@@ -157,5 +187,36 @@ QDomNode XMLTemplate::createDateEditField(const QString &name, const QString &de
     auto n = m_domM.createElement(m_dateEditFieldNodeName);
     n.setAttribute(m_fieldNameAttributeName, name);
     n.appendChild(m_domM.createTextNode(defaultValue));
+    return n;
+}
+
+QDomNode XMLTemplate::createOneOfField(const QString &name, const QStringList &items)
+{
+    auto n = m_domM.createElement(m_oneOfTextFieldNodeName);
+    n.setAttribute(m_fieldNameAttributeName, name);
+
+    for (auto& i : items) {
+        n.appendChild(createItem(i));
+    }
+
+    return n;
+}
+
+QDomNode XMLTemplate::createAnyOfField(const QString &name, const QStringList &items)
+{
+    auto n = m_domM.createElement(m_anyOfTextFieldNodeName);
+    n.setAttribute(m_fieldNameAttributeName, name);
+
+    for (auto& i : items) {
+        n.appendChild(createItem(i));
+    }
+
+    return n;
+}
+
+QDomNode XMLTemplate::createItem(const QString &name)
+{
+    auto n = m_domM.createElement(m_itemNodeName);
+    n.appendChild(m_domM.createTextNode(name));
     return n;
 }
