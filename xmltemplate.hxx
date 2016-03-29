@@ -2,6 +2,7 @@
 
 #include <QString>
 #include <QDomDocument>
+#include <QDate>
 
 class XMLTemplate
 {
@@ -21,20 +22,26 @@ public:
 
     QString documentToString() const;
 
+    QString createShortTextFieldText(const QString& name, const QString& defaultValue = "");
+    QString createLongTextFieldText(const QString& name, const QString& defaultValue = "");
+    QString createDateEditFieldText(const QString& name, const QString& defaultValue = "");
+    QString createOneOfFieldText(const QString& name);
+    QString createAnyOfFieldText(const QString& name);
+
 protected:
     XMLTemplate();
     void initDom();
 
-    QDomNode& createConfigNode();
-    QDomNode& createTemplateNode();
-    QDomNode& createLetterNode();
+    QDomNode createConfigNode();
+    QDomNode createTemplateNode();
+    QDomNode createLetterNode();
 
-    QDomNode createShortTextField(const QString& name, const QString& defaultValue);
-    QDomNode createLongTextField(const QString& name, const QString& defaultValue);
-    QDomNode createDateEditField(const QString& name, const QString& defaultValue);
-    QDomNode createOneOfField(const QString& name, const QStringList& items);
-    QDomNode createAnyOfField(const QString& name, const QStringList& items);
-    QDomNode createItem(const QString& name);
+    QDomNode createShortTextField(const QString& name, const QString& defaultValue, QDomDocument &doc);
+    QDomNode createLongTextField(const QString& name, const QString& defaultValue, QDomDocument &doc);
+    QDomNode createDateEditField(const QString& name, const QString& defaultValue, QDomDocument &doc);
+    QDomNode createOneOfField(const QString& name, const QStringList& items, QDomDocument &doc);
+    QDomNode createAnyOfField(const QString& name, const QStringList& items, QDomDocument &doc);
+    QDomNode createItem(const QString& name, QDomDocument &doc);
 
 private:
     QString m_fileName;
@@ -44,6 +51,8 @@ private:
 
     int m_xmlIndent { 4 };
     QString m_defaultDateFormat { QString::fromUtf8("dd/MM/yyyy") };
+    QString m_trueConstant { QString::fromUtf8("true") };
+    QString m_falseConstant { QString::fromUtf8("false") };
 
     QString m_rootNodeName { QString::fromUtf8("LetterAssistantTemplate") };
     QString m_templateNodeName { QString::fromUtf8("Template") };
@@ -59,6 +68,7 @@ private:
     QString m_oneOfTextFieldNodeName { QString::fromUtf8("OneOf") };
     QString m_anyOfTextFieldNodeName { QString::fromUtf8("AnyOf") };
     QString m_itemNodeName { QString::fromUtf8("Item") };
+    QString m_isCheckedAttributeName { QString::fromUtf8("isChecked") };
 
     QString m_fieldNameAttributeName { QString::fromUtf8("name") };
 
