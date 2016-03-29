@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QDate>
 
 XMLTemplate::XMLTemplate()
 {
@@ -93,12 +94,19 @@ void XMLTemplate::initDom()
 
     m_rootNode = m_domM.createElement(m_rootNodeName);
 
-    m_templateNode = m_domM.createElement(m_templateNodeName);
     m_letterNode = m_domM.createElement(m_letterNodeName);
+    m_templateNode.appendChild(createConfigNode());
+    m_rootNode.appendChild(createTemplateNode());
+    m_rootNode.appendChild(m_letterNode);
+    m_domM.appendChild(m_rootNode);
+}
+
+QDomNode &XMLTemplate::createConfigNode()
+{
     m_configNode = m_domM.createElement(m_configNodeName);
 
     m_dateFormatNode = m_domM.createElement(m_dateFormatNodeName);
-    m_dateFormatNode.appendChild(m_domM.createTextNode(QString::fromUtf8("dd/mm/yyyy")));
+    m_dateFormatNode.appendChild(m_domM.createTextNode(m_defaultDateFormat));
 
     m_columnsInCheckBoxGroups = m_domM.createElement(m_columnsInCheckBoxGroupsNodeName);
     m_columnsInCheckBoxGroups.appendChild(m_domM.createTextNode(QString::fromUtf8("2")));
@@ -110,8 +118,44 @@ void XMLTemplate::initDom()
     m_configNode.appendChild(m_columnsInCheckBoxGroups);
     m_configNode.appendChild(m_columnsInRadioButtonBoxGroups);
 
-    m_templateNode.appendChild(m_configNode);
-    m_rootNode.appendChild(m_templateNode);
-    m_rootNode.appendChild(m_letterNode);
-    m_domM.appendChild(m_rootNode);
+    return m_configNode;
+}
+
+QDomNode &XMLTemplate::createTemplateNode()
+{
+    m_templateNode = m_domM.createElement(m_templateNodeName);
+
+    m_fields = m_domM.createElement(m_fieldsNodeName);
+
+    m_fields.appendChild(createShortTextField(QString::fromUtf8("FirstName"), QObject::trUtf8("First Name")));
+    m_fields.appendChild(createShortTextField(QString::fromUtf8("FamilyName"), QObject::trUtf8("Family Name")));
+    m_fields.appendChild(createDateEditField(QString::fromUtf8("Date"), QDate::currentDate().toString(m_defaultDateFormat.toLatin1())));
+    m_fields.appendChild(createLongTextField(QString::fromUtf8("Comment"), QObject::trUtf8("")));
+
+    m_templateNode.appendChild(m_fields);
+    return m_templateNode;
+}
+
+QDomNode XMLTemplate::createShortTextField(const QString &name, const QString &defaultValue)
+{
+    auto n = m_domM.createElement(m_shortTextFieldNodeName);
+    n.setAttribute(m_fieldNameAttributeName, name);
+    n.appendChild(m_domM.createTextNode(defaultValue));
+    return n;
+}
+
+QDomNode XMLTemplate::createLongTextField(const QString &name, const QString &defaultValue)
+{
+    auto n = m_domM.createElement(m_longTextFieldNodeName);
+    n.setAttribute(m_fieldNameAttributeName, name);
+    n.appendChild(m_domM.createTextNode(defaultValue));
+    return n;
+}
+
+QDomNode XMLTemplate::createDateEditField(const QString &name, const QString &defaultValue)
+{
+    auto n = m_domM.createElement(m_dateEditFieldNodeName);
+    n.setAttribute(m_fieldNameAttributeName, name);
+    n.appendChild(m_domM.createTextNode(defaultValue));
+    return n;
 }
