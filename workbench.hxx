@@ -8,4 +8,7 @@ class Workbench : public QMdiArea
 public:
     Workbench(QWidget* p);
     virtual ~Workbench();
+
+protected:
+    void connectToApplicationSignals();
 };
