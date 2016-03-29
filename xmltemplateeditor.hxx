@@ -16,6 +16,7 @@ public:
 
 public slots:
     void setTemplate(XMLTemplate* t);
+    void save();
 
 private:
     XMLTemplate* m_t { nullptr };

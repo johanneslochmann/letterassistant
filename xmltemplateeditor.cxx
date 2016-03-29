@@ -25,3 +25,8 @@ void XMLTemplateEditor::setTemplate(XMLTemplate *t)
         setWindowTitle(trUtf8("Template: %1").arg(t->fileName()));
     }
 }
+
+void XMLTemplateEditor::save()
+{
+    m_edit->save();
+}

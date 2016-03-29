@@ -21,14 +21,21 @@ public slots:
     void createDateField();
     void createOneOfField();
     void createAnyOfField();
+    void insertKey();
+    void updateTemplate();
 
     void validate();
+    void save();
 
     void onCursorPositionChanged(const QTextCursor& c);
 
 protected:
     void createActions();
     void insertTextAtCursorPosition(const QString& txt);
+
+    bool xmlIsValid();
+    bool implUpdateTemplate();
+    bool implSave();
 
 private:
     XMLTemplate* m_t { nullptr };
@@ -38,6 +45,9 @@ private:
     QAction* m_createDateField;
     QAction* m_createOneOfField;
     QAction* m_createAnyOfField;
+    QAction* m_insertKey;
+    QAction* m_updateTemplate;
+    QAction* m_save;
 
     QAction* m_validate;
 

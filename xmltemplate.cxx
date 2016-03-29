@@ -1,8 +1,10 @@
 #include "xmltemplate.hxx"
 
+#include <QApplication>
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QMessageBox>
 
 XMLTemplate::XMLTemplate()
 {
@@ -27,6 +29,10 @@ bool XMLTemplate::loadFromFile(const QString &fname)
 {
     m_fileName = fname;
 
+    // TODO: load data from file
+
+    m_isDirty = false;
+
     return false;
 }
 
@@ -48,6 +54,8 @@ bool XMLTemplate::saveToFile(const QString &fname)
 
     f.flush();
     f.close();
+
+    m_isDirty = false;
 
     return true;
 }
@@ -79,6 +87,28 @@ XMLTemplate* XMLTemplate::openTemplate(const QString &fname)
     t->loadFromFile(fname);
 
     return t;
+}
+
+bool XMLTemplate::setPlainText(const QString &txt)
+{
+    m_isDirty = true;
+
+    QString m_errMsg;
+    int m_errLine { 0 };
+    int m_errCol { 0 };
+
+    if (!m_domM.setContent(txt, &m_errMsg, &m_errLine, &m_errCol)) {
+        QMessageBox::warning(QApplication::activeWindow(),
+                             QObject::trUtf8("Validation failed"),
+                             QObject::trUtf8("Validation failed at Line %1 Column %2: %3 ")
+                             .arg(m_errLine)
+                             .arg(m_errCol)
+                             .arg(m_errMsg));
+
+        return false;
+    }
+
+    return parseDom();
 }
 
 QString XMLTemplate::documentToString() const
@@ -128,6 +158,41 @@ QString XMLTemplate::createAnyOfFieldText(const QString &name)
                                                           QObject::trUtf8("Item 4")} ),
                                      doc));
     return doc.toString(m_xmlIndent).toUtf8();
+}
+
+QStringList XMLTemplate::availableFieldNames()
+{
+    QStringList buf;
+
+    extractNameAttributeValues(m_shortTextFieldNodeName, buf);
+    extractNameAttributeValues(m_longTextFieldNodeName, buf);
+    extractNameAttributeValues(m_dateEditFieldNodeName, buf);
+    extractNameAttributeValues(m_anyOfTextFieldNodeName, buf);
+    extractNameAttributeValues(m_oneOfTextFieldNodeName, buf);
+
+    return buf;
+}
+
+void XMLTemplate::extractNameAttributeValues(const QString &nodeName, QStringList &buf)
+{
+    auto nodes = m_domM.elementsByTagName(nodeName);
+
+    for (int i = 0; i != nodes.length(); ++i) {
+        auto n = nodes.at(i);
+        auto attributes = n.attributes();
+
+        if (attributes.contains(m_fieldNameAttributeName)) {
+            buf.push_back(attributes.namedItem(m_fieldNameAttributeName).toAttr().value());
+        }
+    }
+}
+
+bool XMLTemplate::parseDom()
+{
+    m_rootNode = m_domM.documentElement();
+    Q_ASSERT(m_rootNode.nodeName() == m_rootNodeName);
+
+    return true;
 }
 
 void XMLTemplate::initDom()

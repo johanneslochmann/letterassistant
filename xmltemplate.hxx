@@ -20,6 +20,8 @@ public:
     static XMLTemplate *createNewTemplate(const QString& fname);
     static XMLTemplate *openTemplate(const QString& fname);
 
+    bool setPlainText(const QString& txt);
+
     QString documentToString() const;
 
     QString createShortTextFieldText(const QString& name, const QString& defaultValue = "");
@@ -27,6 +29,9 @@ public:
     QString createDateEditFieldText(const QString& name, const QString& defaultValue = "");
     QString createOneOfFieldText(const QString& name);
     QString createAnyOfFieldText(const QString& name);
+
+    QStringList availableFieldNames();
+    bool isDirty() const { return m_isDirty; }
 
 protected:
     XMLTemplate();
@@ -43,9 +48,13 @@ protected:
     QDomNode createAnyOfField(const QString& name, const QStringList& items, QDomDocument &doc);
     QDomNode createItem(const QString& name, QDomDocument &doc);
 
+    void extractNameAttributeValues(const QString& nodeName, QStringList& buf);
+    bool parseDom();
+
 private:
     QString m_fileName;
     QString m_lastError;
+    bool m_isDirty { false };
 
     QDomDocument m_domM;
 
