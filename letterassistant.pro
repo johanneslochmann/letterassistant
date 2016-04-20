@@ -19,7 +19,7 @@
 
 QT += core gui widgets xml
 
-QMAKE_CXX = clang++
+#QMAKE_CXX = clang++
 CONFIG += c++11
 
 TARGET = letterassistant

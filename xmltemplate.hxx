@@ -50,8 +50,18 @@ protected:
 
     void extractNameAttributeValues(const QString& nodeName, QStringList& buf);
     bool parseDom();
+    bool parseConfig();
+    bool parseTemplate();
+    bool parseLetter();
+
+    void parseShortTextFieldNode(QDomNode& n);
+    void parseLongTextFieldNode(QDomNode& n);
+    void parseDateEditFieldNode(QDomNode& n);
+    void parseOneOfFieldNode(QDomNode& n);
+    void parseAnyOfFieldNode(QDomNode& n);
 
 private:
+    QStringList m_parsingErrors;
     QString m_fileName;
     QString m_lastError;
     bool m_isDirty { false };
@@ -74,8 +84,8 @@ private:
     QString m_shortTextFieldNodeName { QString::fromUtf8("ShortText") };
     QString m_longTextFieldNodeName { QString::fromUtf8("LongText") };
     QString m_dateEditFieldNodeName { QString::fromUtf8("DateEdit") };
-    QString m_oneOfTextFieldNodeName { QString::fromUtf8("OneOf") };
-    QString m_anyOfTextFieldNodeName { QString::fromUtf8("AnyOf") };
+    QString m_oneOfFieldNodeName { QString::fromUtf8("OneOf") };
+    QString m_anyOfFieldNodeName { QString::fromUtf8("AnyOf") };
     QString m_itemNodeName { QString::fromUtf8("Item") };
     QString m_isCheckedAttributeName { QString::fromUtf8("isChecked") };
 
@@ -83,7 +93,6 @@ private:
 
     QDomNode m_rootNode;
     QDomNode m_templateNode;
-    QDomNode m_configNode;
     QDomNode m_dateFormatNode;
     QDomNode m_columnsInCheckBoxGroups;
     QDomNode m_columnsInRadioButtonBoxGroups;

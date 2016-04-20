@@ -50,6 +50,16 @@ void MainWindow::createFileMenu()
     menuBar()->addMenu(m_file);
 }
 
+void MainWindow::createSettingsMenu()
+{
+    m_settings = new QMenu(trUtf8("&Settings"), menuBar());
+
+    m_settings->addAction(LetterAssistant::get()->increaseFontSizeAction());
+    m_settings->addAction(LetterAssistant::get()->decreaseFontSizeAction());
+
+    menuBar()->addMenu(m_settings);
+}
+
 void MainWindow::createLetterMenu()
 {
     m_letter = new QMenu(trUtf8("&Letter"), menuBar());
@@ -107,8 +117,9 @@ void MainWindow::createHelpMenu()
 void MainWindow::createMenuBar()
 {
     createFileMenu();
+    createSettingsMenu();
     createLetterMenu();
-    createTemplatesMenu();
+    //createTemplatesMenu();
     createMdiMenu();
     createHelpMenu();
 }

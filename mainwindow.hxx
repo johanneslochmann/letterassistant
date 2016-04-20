@@ -38,6 +38,7 @@ protected:
     void createMenuBar();
 
     void createFileMenu();
+    void createSettingsMenu();
     void createLetterMenu();
     void createTemplatesMenu();
     void createMdiMenu();
@@ -46,6 +47,7 @@ protected:
 private:
 
     QMenu* m_file;
+    QMenu* m_settings;
     QMenu* m_letter;
     QMenu* m_templates;
     QMenu* m_mdi;

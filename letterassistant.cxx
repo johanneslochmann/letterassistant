@@ -32,6 +32,7 @@
 LetterAssistant::LetterAssistant(int &argc, char **argv)
     : QApplication(argc, argv)
 {
+    setFont(createDefaultFont());
     initActions();
 }
 
@@ -80,6 +81,24 @@ void LetterAssistant::onCreateLetter()
 
     auto dlg = new LetterBuilderDialog(activeWindow(), txt);
     dlg->showMaximized();
+}
+
+void LetterAssistant::increaseFontSize()
+{
+    auto f = font();
+    auto newSize = f.pointSize() + 2;
+    f.setPointSize(newSize);
+
+    setFont(f);
+}
+
+void LetterAssistant::decreaseFontSize()
+{
+    auto f = font();
+    auto newSize = f.pointSize() - 2;
+    f.setPointSize(newSize);
+
+    setFont(f);
 }
 
 void LetterAssistant::newXmlTemplate()
@@ -161,6 +180,17 @@ void LetterAssistant::initFileActions()
     connect(m_quitAction, &QAction::triggered, this, &LetterAssistant::quit);
 }
 
+void LetterAssistant::initSettingsActions()
+{
+    m_increaseFontSizeAction = new QAction(trUtf8("&Increase Font Size"), this);
+    m_increaseFontSizeAction->setShortcut(QKeySequence("Ctrl++"));
+    connect(m_increaseFontSizeAction, &QAction::triggered, this, &LetterAssistant::increaseFontSize);
+
+    m_decreaseFontSizeAction = new QAction(trUtf8("&Decrease Font Size"), this);
+    m_decreaseFontSizeAction->setShortcut(QKeySequence("Ctrl+-"));
+    connect(m_decreaseFontSizeAction, &QAction::triggered, this, &LetterAssistant::decreaseFontSize);
+}
+
 void LetterAssistant::initHelpActions()
 {
     m_aboutProgramAction = new QAction(trUtf8("&About this program..."), this);
@@ -176,5 +206,14 @@ void LetterAssistant::initActions()
     initMdiActions();
     initLetterActions();
     initFileActions();
+    initSettingsActions();
     initHelpActions();
+}
+
+QFont LetterAssistant::createDefaultFont() {
+    auto currentFont = font();
+    auto newSize = currentFont.pointSize() + 4;
+    currentFont.setPointSize(newSize);
+
+    return currentFont;
 }

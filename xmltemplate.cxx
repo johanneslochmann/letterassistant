@@ -167,8 +167,8 @@ QStringList XMLTemplate::availableFieldNames()
     extractNameAttributeValues(m_shortTextFieldNodeName, buf);
     extractNameAttributeValues(m_longTextFieldNodeName, buf);
     extractNameAttributeValues(m_dateEditFieldNodeName, buf);
-    extractNameAttributeValues(m_anyOfTextFieldNodeName, buf);
-    extractNameAttributeValues(m_oneOfTextFieldNodeName, buf);
+    extractNameAttributeValues(m_anyOfFieldNodeName, buf);
+    extractNameAttributeValues(m_oneOfFieldNodeName, buf);
 
     return buf;
 }
@@ -189,10 +189,113 @@ void XMLTemplate::extractNameAttributeValues(const QString &nodeName, QStringLis
 
 bool XMLTemplate::parseDom()
 {
+    m_parsingErrors.clear();
+
     m_rootNode = m_domM.documentElement();
-    Q_ASSERT(m_rootNode.nodeName() == m_rootNodeName);
+    if (m_rootNode.nodeName() != m_rootNodeName) {
+        m_parsingErrors.append(QObject::trUtf8("document element is not <%1>, but <%2>.")
+                               .arg(m_rootNodeName)
+                               .arg(m_rootNode.nodeName()));
+        return false;
+    }
+
+    return (parseConfig() && parseTemplate() && parseLetter());
+}
+
+bool XMLTemplate::parseConfig()
+{
+    auto nodes = m_domM.elementsByTagName(m_configNodeName);
+    if (nodes.size() != 1) {
+        m_parsingErrors.append(QObject::trUtf8("there should be 1 <%1>, but there are %2.")
+                               .arg(m_configNodeName)
+                               .arg(nodes.size()));
+        return false;
+    }
+
+    m_templateNode = nodes.at(0).toElement();
+    auto childNodes = m_templateNode.childNodes();
+
+    for (int i = 0; i != childNodes.size(); ++i) {
+        auto n = childNodes.at(i);
+
+        if (n.nodeName() == m_dateFormatNodeName) {
+            m_dateFormatNode = n;
+        } else if (n.nodeName() == m_columnsInCheckBoxGroupsNodeName) {
+            m_columnsInCheckBoxGroups = n;
+        } else if (n.nodeName() == m_columnsInRadioButtonGroupsNodeName) {
+            m_columnsInRadioButtonBoxGroups = n;
+        } else {
+            m_parsingErrors.append(QObject::trUtf8("Skipping node: %1").arg(n.toDocument().toString(m_xmlIndent)));
+        }
+    }
 
     return true;
+}
+
+bool XMLTemplate::parseTemplate()
+{
+    m_fields = m_domM.elementsByTagName(m_fieldsNodeName).at(0);
+    auto childNodes = m_fields.childNodes();
+
+    for (int i = 0; i != childNodes.size(); ++i) {
+        auto n = childNodes.at(i);
+
+        if (n.nodeName() != m_shortTextFieldNodeName) {
+            parseShortTextFieldNode(n);
+        } else if (n.nodeName() != m_longTextFieldNodeName) {
+            parseLongTextFieldNode(n);
+        } else if (n.nodeName() != m_dateEditFieldNodeName) {
+            parseDateEditFieldNode(n);
+        } else if (n.nodeName() != m_oneOfFieldNodeName) {
+            parseOneOfFieldNode(n);
+        } else if (n.nodeName() != m_anyOfFieldNodeName) {
+            parseAnyOfFieldNode(n);
+        } else {
+            m_parsingErrors.append(QObject::trUtf8("Skipping node: %1").arg(n.toDocument().toString(m_xmlIndent)));
+        }
+    }
+
+    return true;
+}
+
+bool XMLTemplate::parseLetter()
+{
+    auto nodes = m_domM.elementsByTagName(m_letterNodeName);
+    if (nodes.size() != 1) {
+        m_parsingErrors.append(QObject::trUtf8("there should be 1 <%1>, but there are %2.")
+                               .arg(m_letterNodeName)
+                               .arg(nodes.size()));
+        return true;
+    }
+
+    m_letterNode = nodes.at(0);
+
+    return true;
+}
+
+void XMLTemplate::parseShortTextFieldNode(QDomNode &n)
+{
+
+}
+
+void XMLTemplate::parseLongTextFieldNode(QDomNode &n)
+{
+
+}
+
+void XMLTemplate::parseDateEditFieldNode(QDomNode &n)
+{
+
+}
+
+void XMLTemplate::parseOneOfFieldNode(QDomNode &n)
+{
+
+}
+
+void XMLTemplate::parseAnyOfFieldNode(QDomNode &n)
+{
+
 }
 
 void XMLTemplate::initDom()
@@ -210,21 +313,21 @@ void XMLTemplate::initDom()
 
 QDomNode XMLTemplate::createConfigNode()
 {
-    m_configNode = m_domM.createElement(m_configNodeName);
+    m_templateNode = m_domM.createElement(m_configNodeName);
 
     m_dateFormatNode = m_domM.createElement(m_dateFormatNodeName);
     m_dateFormatNode.appendChild(m_domM.createTextNode(m_defaultDateFormat));
-    m_configNode.appendChild(m_dateFormatNode);
+    m_templateNode.appendChild(m_dateFormatNode);
 
     m_columnsInCheckBoxGroups = m_domM.createElement(m_columnsInCheckBoxGroupsNodeName);
     m_columnsInCheckBoxGroups.appendChild(m_domM.createTextNode(QString::fromUtf8("2")));
-    m_configNode.appendChild(m_columnsInCheckBoxGroups);
+    m_templateNode.appendChild(m_columnsInCheckBoxGroups);
 
     m_columnsInRadioButtonBoxGroups = m_domM.createElement(m_columnsInRadioButtonGroupsNodeName);
     m_columnsInRadioButtonBoxGroups.appendChild(m_domM.createTextNode(QString::fromUtf8("2")));
-    m_configNode.appendChild(m_columnsInRadioButtonBoxGroups);
+    m_templateNode.appendChild(m_columnsInRadioButtonBoxGroups);
 
-    return m_configNode;
+    return m_templateNode;
 }
 
 QDomNode XMLTemplate::createTemplateNode()
@@ -301,7 +404,7 @@ QDomNode XMLTemplate::createDateEditField(const QString &name, const QString &de
 
 QDomNode XMLTemplate::createOneOfField(const QString &name, const QStringList &items, QDomDocument &doc)
 {
-    auto n = doc.createElement(m_oneOfTextFieldNodeName);
+    auto n = doc.createElement(m_oneOfFieldNodeName);
     n.setAttribute(m_fieldNameAttributeName, name);
 
     for (auto& i : items) {
@@ -313,7 +416,7 @@ QDomNode XMLTemplate::createOneOfField(const QString &name, const QStringList &i
 
 QDomNode XMLTemplate::createAnyOfField(const QString &name, const QStringList &items, QDomDocument& doc)
 {
-    auto n = doc.createElement(m_anyOfTextFieldNodeName);
+    auto n = doc.createElement(m_anyOfFieldNodeName);
     n.setAttribute(m_fieldNameAttributeName, name);
 
     for (auto& i : items) {

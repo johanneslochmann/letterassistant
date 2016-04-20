@@ -24,6 +24,7 @@
 #include <QApplication>
 
 #include <QAction>
+#include <QFont>
 
 class XMLTemplate;
 
@@ -54,6 +55,11 @@ public:
     QAction* closeAllSubWindowsAction() { return m_closeAllSubWindowsAction; }
     QAction* tileSubWindowsAction() { return m_tileSubWindowsAction; }
 
+    QAction* increaseFontSizeAction() { return m_increaseFontSizeAction; }
+    QAction* decreaseFontSizeAction() { return m_decreaseFontSizeAction; }
+
+    QFont createDefaultFont();
+
 signals:
     void aboutProgram();
 
@@ -76,6 +82,9 @@ public slots:
     void onAboutProgram();
     void onCreateLetter();
 
+    void increaseFontSize();
+    void decreaseFontSize();
+
     void newXmlTemplate();
 
 protected:
@@ -85,6 +94,7 @@ protected:
     void initMdiActions();
     void initLetterActions();
     void initFileActions();
+    void initSettingsActions();
     void initHelpActions();
 
 private:
@@ -105,6 +115,9 @@ private:
     QAction* m_quitAction;
     QAction* m_aboutProgramAction;
     QAction* m_aboutQtAction;
+
+    QAction* m_increaseFontSizeAction;
+    QAction* m_decreaseFontSizeAction;
 
     QList<XMLTemplate*> m_openTemplates;
 };
